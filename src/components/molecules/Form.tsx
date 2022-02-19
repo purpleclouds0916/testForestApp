@@ -1,44 +1,33 @@
+/*  eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import { InputAdornment, TextField } from '@mui/material';
-import { VFC } from 'react';
+import React, { VFC } from 'react';
 import { ArrayFieldProps } from '../../models/ArrayFieldProps';
 
+import './Form.css';
+
 const Form: VFC<ArrayFieldProps> = (props) => {
-  const { formInformation, inputValues, setInputValue } = props;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const defaultValues: { name: string; value: number | string }[] = [];
-
-  // const [inputValues, setInputValue] = useState<
-  //   { name: string; value: number | string }[]
-  // >(defaultValues);
-
-  formInformation.map((information) =>
-    defaultValues.push({
-      name: information.title,
-      value: information.defaultValue,
-    }),
-  );
-
-  // useEffect(() => {
-  //   setInputValue(defaultValues);
-  // }, [defaultValues]);
+  const { formInformation, inputValues, setInputValue, category, className } =
+    props;
 
   const ArrayFields = formInformation.map((information, index) => (
-    <div className="form-field-wrapper" key={information.id}>
-      <div>{information.title}</div>
+    <div className={className ?? "null"} key={information.id}>
+      {information.title && <div>{information.title}</div>}
       {information.description && <p>{information.description}</p>}
       <TextField
         id=""
         type="text"
         variant="outlined"
-        value={inputValues[index].value}
+        value={inputValues[category][index].value}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setInputValue(
-            inputValues.map((inputValue, nestIndex) =>
+          setInputValue({
+            ...inputValues,
+            [category]: inputValues[category].map((inputValue, nestIndex) =>
               nestIndex === index
                 ? { name: inputValue.name, value: event.target.value }
                 : { name: inputValue.name, value: inputValue.value },
             ),
-          );
+          });
         }}
         InputProps={
           information.unit
@@ -55,7 +44,7 @@ const Form: VFC<ArrayFieldProps> = (props) => {
     </div>
   ));
 
-  return <div>{ArrayFields}</div>;
+  return <div className="ArrayFields">{ArrayFields}</div>;
 };
 
 export default Form;

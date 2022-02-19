@@ -1,6 +1,6 @@
 import { FieldType } from '../models/FieldType';
 
-const densityFormInformation: FieldType[] = [
+const managementData: FieldType[] = [
   {
     id: 1,
     title: '最小の植林密度',
@@ -88,4 +88,4 @@ const densityFormInformation: FieldType[] = [
   },
 ];
 
-export default densityFormInformation;
+export default managementData;

@@ -1,6 +1,6 @@
 export interface FieldType {
   id: number;
-  title: string;
+  title?: string;
   description?: string;
   defaultValue: number;
   unit?: string;
