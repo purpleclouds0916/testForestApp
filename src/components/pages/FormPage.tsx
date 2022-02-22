@@ -9,8 +9,7 @@ import { Management } from '../../models/ManagementModels';
 import { ThinningOtherTs } from '../../models/ThinningOther';
 import { ClearCutOtherTs } from '../../models/ClearCutOther';
 
-import managementData from '../../data/ManagementData';
-import CutOtherData from '../../data/CutOtherData';
+import formInformation from '../../data/FormInformation';
 import defaultData from '../../data/DefaultData';
 import FormNormal from 'components/Atoms/FormNormal';
 
@@ -130,7 +129,7 @@ const FormPage: VFC = () => {
       </FormCard>
       <FormCard title="経営方法の詳細">
         <FormObject
-          formInformation={managementData}
+          formInformation={formInformation.management}
           inputValues={inputValues}
           setInputValue={setInputValue}
           category="management"
@@ -140,7 +139,7 @@ const FormPage: VFC = () => {
       <FormCard title="間伐材の費用">
         <>
           <FormObject
-            formInformation={CutOtherData.thinningOtherData}
+            formInformation={formInformation.thinningOther}
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="thinningOther"
@@ -164,7 +163,7 @@ const FormPage: VFC = () => {
       <FormCard title="間伐材の費用">
         <>
           <FormObject
-            formInformation={CutOtherData.clearCutOtherData}
+            formInformation={formInformation.clearCutOther}
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="clearCutOther"
