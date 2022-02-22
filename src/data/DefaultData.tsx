@@ -1,42 +1,51 @@
-import { FieldType } from '../models/FieldType';
-import { FormState } from '../models/FormState';
+/* eslint-disable */
 
-import sdmdData from './SdmdData';
-import densityFormInformation from './ManagementData';
-import treePriceAndDiamter from './TreePriceAndDiamterData';
+import { ThinningOtherTs } from '../models/ThinningOther';
+import { ClearCutOtherTs } from '../models/ClearCutOther';
 
-const GetDefaultValues = (FormInformation: FieldType[]) => {
-  const defaultValues: FormState[] = [];
-  FormInformation.map((information) =>
-    defaultValues.push({
-      name: information.title ?? "Null",
-      value: information.defaultValue,
-    }),
-  );
-
-  return defaultValues;
+const treeHeight = [1, 2, 3, 4];
+const treeVolume = [1, 2, 3, 4];
+const dbh = [1, 2, 3];
+const highStandShape = [1, 2, 3];
+const management = {
+  minimumDensity: 122,
+  maximumDensity: 1,
+  minimumClearcut: 1,
+  reforestationCost: 1,
+  priceSaplings: 1,
+  minimumThinning: 1,
+  maximumThinning: 1,
+  annualProfit: 1,
+  ageOfStartThinning: 1,
+  ageOfEndThinning: 1,
+  thinningInterval: 1,
+  maximumNumberOfThinning: 1,
 };
 
-const treeHeight = GetDefaultValues(sdmdData.treeHeight);
-const treeVolume = GetDefaultValues(sdmdData.treeVolume);
-const nrf = GetDefaultValues(sdmdData.nrf);
-const dbh = GetDefaultValues(sdmdData.dbh);
-const management = GetDefaultValues(densityFormInformation);
-const treePrice = GetDefaultValues(treePriceAndDiamter.priceFormInformation);
-const treeDiamter = GetDefaultValues(
-  treePriceAndDiamter.diamterFormInformation,
-);
-const thinningOther = GetDefaultValues(
-  treePriceAndDiamter.treeThinningCutInformation,
-);
-const clearCutOther = GetDefaultValues(
-  treePriceAndDiamter.treeThinningCutInformation,
-);
+const treePrice: Array<number | string> = [
+  9000, 9000, 9000, 9000, 9000, 12500, 12500, 13500, 13500, 14000, 14000,
+];
+
+const treeDiamter: Array<number | string> = [
+  6, 8, 9, 12, 14, 15, 16, 18, 22, 24, 28,
+];
+
+const thinningOther: ThinningOtherTs = {
+  thinningYieldRate: 10,
+  thinningCost: 10,
+  thinningStumpHeight: 10,
+};
+
+const clearCutOther: ClearCutOtherTs = {
+  clearCutYieldRate: 10,
+  clearCutCost: 10,
+  clearCutStumpHeight: 10,
+};
 
 const defaultData = {
   treeHeight,
   treeVolume,
-  nrf,
+  highStandShape,
   dbh,
   management,
   treeDiamter,

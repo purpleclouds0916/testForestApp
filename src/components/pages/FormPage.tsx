@@ -1,33 +1,39 @@
+/* eslint-disable */
 import { useState, VFC } from 'react';
 
 import FormCard from '../organisms/FormCard';
-import Form from '../molecules/Form';
+import FormObject from '../molecules/FormObject';
+import FormArray from '../molecules/FormArray';
 
+import { Management } from '../../models/ManagementModels';
+import { ThinningOtherTs } from '../../models/ThinningOther';
+import { ClearCutOtherTs } from '../../models/ClearCutOther';
+
+import managementData from '../../data/ManagementData';
+import CutOtherData from '../../data/CutOtherData';
 import defaultData from '../../data/DefaultData';
-import sdmdData from '../../data/SdmdData';
-import management from '../../data/ManagementData';
-import treePriceAndDiamterData from '../../data/TreePriceAndDiamterData';
-
-import { FormState } from '../../models/FormState';
+import FormNormal from 'components/Atoms/FormNormal';
 
 const FormPage: VFC = () => {
   const [inputValues, setInputValue] = useState<{
-    treeHeight: FormState[];
-    treeVolume: FormState[];
-    nrf: FormState[];
-    dbh: FormState[];
-    management: FormState[];
-    thinningOther: FormState[];
-    thinningPrice: FormState[];
-    thinningDiamter: FormState[];
-    clearCutOther: FormState[];
-    clearCutPrice: FormState[];
-    clearCutDiamter: FormState[];
+    treeHeight: Array<number | string>;
+    treeVolume: Array<number | string>;
+    highStandShape: Array<number | string>;
+    dbh: Array<number | string>;
+    nrf: number | string;
+    management: Management;
+    thinningOther: ThinningOtherTs;
+    thinningPrice: Array<number | string>;
+    thinningDiamter: Array<number | string>;
+    clearCutOther: ClearCutOtherTs;
+    clearCutPrice: Array<number | string>;
+    clearCutDiamter: Array<number | string>;
   }>({
     treeHeight: defaultData.treeHeight,
     treeVolume: defaultData.treeVolume,
-    nrf: defaultData.nrf,
+    highStandShape: defaultData.highStandShape,
     dbh: defaultData.dbh,
+    nrf: 5.992602,
     management: defaultData.management,
     thinningOther: defaultData.thinningOther,
     thinningPrice: defaultData.treePrice,
@@ -38,46 +44,92 @@ const FormPage: VFC = () => {
   });
 
   const handleSubmit = () => {
-    // eslint-disable-next-line no-alert
-    alert(JSON.stringify(inputValues));
+    const submitApiData = {
+      SDMD: {
+        NRf: inputValues.nrf,
+        H: inputValues.treeHeight,
+        V: inputValues.treeVolume,
+        DBH: inputValues.dbh,
+        HF: inputValues.highStandShape
+      },
+      Density: {
+        Plant: [
+          inputValues.management.minimumDensity,
+          inputValues.management.maximumDensity,
+        ],
+        Minimum: inputValues.management.minimumClearcut,
+      },
+      RegenerationCost: [
+        inputValues.management.reforestationCost,
+        inputValues.management.priceSaplings,
+      ],
+      ThinningPercent: [
+        inputValues.management.minimumThinning,
+        inputValues.management.maximumThinning,
+      ],
+      AnnualInterestPercent: inputValues.management.annualProfit,
+      HarvestingAges: [
+        inputValues.management.ageOfStartThinning,
+        inputValues.management.ageOfEndThinning,
+        inputValues.management.thinningInterval,
+      ],
+      MaxNumOfHarvest: inputValues.management.maximumNumberOfThinning,
+      Thinning: {
+        YieldRate: inputValues.thinningOther.thinningYieldRate,
+        Cost: inputValues.thinningOther.thinningCost,
+        StumpHeight: inputValues.thinningOther.thinningStumpHeight,
+        Diameter: inputValues.thinningDiamter,
+        Price: inputValues.thinningPrice,
+      },
+      Clearcut: {
+        YieldRate: inputValues.clearCutOther.clearCutYieldRate,
+        Cost: inputValues.clearCutOther.clearCutCost,
+        StumpHeight: inputValues.clearCutOther.clearCutStumpHeight,
+        Diameter: inputValues.clearCutDiamter,
+        Price: inputValues.clearCutPrice,
+      },
+    };
+    alert(JSON.stringify(submitApiData));
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <FormCard title="林分の成長">
         <>
-          <Form
-            formInformation={sdmdData.treeHeight}
+          <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="treeHeight"
           />
-          <Form
-            formInformation={sdmdData.treeVolume}
+          <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="treeVolume"
-            className='display-none'
+            className="display-none"
           />
-          <Form
-            formInformation={sdmdData.nrf}
+          <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
-            category="nrf"
-            className='display-none'
+            category="highStandShape"
+            className="display-none"
           />
-          <Form
-            formInformation={sdmdData.dbh}
+          <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="dbh"
-            className='display-none'
+            className="display-none"
+          />
+          <FormNormal
+            inputValues={inputValues}
+            setInputValue={setInputValue}
+            category="nrf"
+            className="display-none"
           />
         </>
       </FormCard>
       <FormCard title="経営方法の詳細">
-        <Form
-          formInformation={management}
+        <FormObject
+          formInformation={managementData}
           inputValues={inputValues}
           setInputValue={setInputValue}
           category="management"
@@ -85,43 +137,39 @@ const FormPage: VFC = () => {
       </FormCard>
       <FormCard title="間伐材の費用">
         <>
-          <Form
-            formInformation={treePriceAndDiamterData.treeThinningCutInformation}
+          <FormObject
+            formInformation={CutOtherData.thinningOtherData}
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="thinningOther"
           />
-          <Form
-            formInformation={treePriceAndDiamterData.priceFormInformation}
+          <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="thinningPrice"
-
           />
-          <Form
-            formInformation={treePriceAndDiamterData.diamterFormInformation}
+          <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="thinningDiamter"
           />
         </>
       </FormCard>
+
       <FormCard title="間伐材の費用">
         <>
-          <Form
-            formInformation={treePriceAndDiamterData.treeClearCutInformation}
+          <FormObject
+            formInformation={CutOtherData.clearCutOtherData}
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="clearCutOther"
           />
-          <Form
-            formInformation={treePriceAndDiamterData.priceFormInformation}
+          <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="clearCutPrice"
           />
-          <Form
-            formInformation={treePriceAndDiamterData.diamterFormInformation}
+          <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="clearCutDiamter"
