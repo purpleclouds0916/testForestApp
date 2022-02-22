@@ -50,7 +50,7 @@ const FormPage: VFC = () => {
         H: inputValues.treeHeight,
         V: inputValues.treeVolume,
         DBH: inputValues.dbh,
-        HF: inputValues.highStandShape
+        HF: inputValues.highStandShape,
       },
       Density: {
         Plant: [
@@ -100,6 +100,7 @@ const FormPage: VFC = () => {
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="treeHeight"
+            className="tree-height-field-items"
           />
           <FormArray
             inputValues={inputValues}
@@ -133,6 +134,7 @@ const FormPage: VFC = () => {
           inputValues={inputValues}
           setInputValue={setInputValue}
           category="management"
+          className="management-field-items"
         />
       </FormCard>
       <FormCard title="間伐材の費用">
@@ -142,16 +144,19 @@ const FormPage: VFC = () => {
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="thinningOther"
+            className="other-items"
           />
           <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="thinningPrice"
+            className="price-items"
           />
           <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="thinningDiamter"
+            className="diamter-items"
           />
         </>
       </FormCard>
@@ -163,16 +168,19 @@ const FormPage: VFC = () => {
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="clearCutOther"
+            className="other-items"
           />
           <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="clearCutPrice"
+            className="price-items"
           />
           <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="clearCutDiamter"
+            className="diamter-items"
           />
         </>
       </FormCard>

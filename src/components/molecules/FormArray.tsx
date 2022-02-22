@@ -11,9 +11,10 @@ const FormArray: VFC<ArrayFieldProps> = (props) => {
   const { inputValues, setInputValue, category, className } = props;
 
   const ArrayFields = inputValues[category].map((_, index) => (
-    <div className={className} key={`${category}_${index}`}>
+    <React.Fragment key={`${category}_${index}`}>
       <TextField
         id=""
+        className={"form-field-item"}
         type="text"
         variant="outlined"
         value={inputValues[category][index]}
@@ -31,10 +32,14 @@ const FormArray: VFC<ArrayFieldProps> = (props) => {
           });
         }}
       />
-    </div>
+    </React.Fragment>
   ));
 
-  return <div className="ArrayFields">{ArrayFields}</div>;
+  return (
+    <div className={className + ' ' + 'form-field-items'}>
+      {ArrayFields}
+    </div>
+  );
 };
 
 export default FormArray;

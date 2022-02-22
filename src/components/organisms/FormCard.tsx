@@ -11,7 +11,7 @@ const Form: VFC<Props> = (props) => {
   return (
     <div className="form-card">
       <div className="form-title">{title}</div>
-      <div className="form-fields">{children}</div>
+      <div className="form-wrapper">{children}</div>
     </div>
   );
 };

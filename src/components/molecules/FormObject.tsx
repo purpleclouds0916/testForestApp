@@ -17,17 +17,19 @@ const FormObject: VFC<ObjectFieldProps> = (props) => {
     props;
   // defaultのdataのIDとフォームのプロパティは一致させる必要があります。
   const ArrayFields = formInformation.map((information) => (
-    <div className={className} key={information.id}>
-      {information.title && <div>{information.title}</div>}
-      {information.description && <p>{information.description}</p>}
+    <div className="form-field-item" key={information.id}>
+      {information.title && <div className='form-field-item-title'>{information.title}</div>}
+      {information.description && <p className='form-field-item-description'>{information.description}</p>}
       <TextField
         id=""
         type="text"
         variant="outlined"
         value={inputValues[category][information.id]}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          const valueOfTheCategory: Management | ThinningOtherTs | ClearCutOtherTs =
-            inputValues[category];
+          const valueOfTheCategory:
+            | Management
+            | ThinningOtherTs
+            | ClearCutOtherTs = inputValues[category];
           Object.keys(inputValues[category]).map((key) =>
             information.id === key
               ? (inputValues[category][key] = event.target.value)
@@ -54,7 +56,9 @@ const FormObject: VFC<ObjectFieldProps> = (props) => {
     </div>
   ));
 
-  return <div className="ArrayFields">{ArrayFields}</div>;
+  return (
+    <div className={className + ' ' + 'form-field-items'}>{ArrayFields}</div>
+  );
 };
 
 export default FormObject;
