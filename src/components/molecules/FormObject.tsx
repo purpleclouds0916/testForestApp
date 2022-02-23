@@ -11,6 +11,7 @@ import { ThinningOtherTs } from '../../models/ThinningOther';
 import { ClearCutOtherTs } from '../../models/ClearCutOther';
 
 import './Form.css';
+import FormItem from './FormItem';
 
 const FormObject: VFC<ObjectFieldProps> = (props) => {
   const { formInformation, inputValues, setInputValue, category, className } =
@@ -18,41 +19,42 @@ const FormObject: VFC<ObjectFieldProps> = (props) => {
   // defaultのdataのIDとフォームのプロパティは一致させる必要があります。
   const ArrayFields = formInformation.map((information) => (
     <div className="form-field-item" key={information.id}>
-      {information.title && <div className='form-field-item-title'>{information.title}</div>}
-      {information.description && <p className='form-field-item-description'>{information.description}</p>}
-      <TextField
-        id=""
-        type="text"
-        variant="outlined"
-        value={inputValues[category][information.id]}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          const valueOfTheCategory:
-            | Management
-            | ThinningOtherTs
-            | ClearCutOtherTs = inputValues[category];
-          Object.keys(inputValues[category]).map((key) =>
-            information.id === key
-              ? (inputValues[category][key] = event.target.value)
-              : (inputValues[category][key] = inputValues[category][key]),
-          );
+      <FormItem title={information.title} description={information.description}>
+        <TextField
+          id=""
+          type="text"
+          variant="outlined"
+          className="form-field-item-input"
+          value={inputValues[category][information.id]}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            const valueOfTheCategory:
+              | Management
+              | ThinningOtherTs
+              | ClearCutOtherTs = inputValues[category];
+            Object.keys(inputValues[category]).map((key) =>
+              information.id === key
+                ? (inputValues[category][key] = event.target.value)
+                : (inputValues[category][key] = inputValues[category][key]),
+            );
 
-          setInputValue({
-            ...inputValues,
-            [category]: valueOfTheCategory,
-          });
-        }}
-        InputProps={
-          information.unit
-            ? {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {information.unit}
-                  </InputAdornment>
-                ),
-              }
-            : undefined
-        }
-      />
+            setInputValue({
+              ...inputValues,
+              [category]: valueOfTheCategory,
+            });
+          }}
+          InputProps={
+            information.unit
+              ? {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {information.unit}
+                    </InputAdornment>
+                  ),
+                }
+              : undefined
+          }
+        />
+      </FormItem>
     </div>
   ));
 

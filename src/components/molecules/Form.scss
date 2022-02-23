@@ -1,3 +1,60 @@
 .display-none {
-    display: none;
+  display: none;
+}
+
+.form-field-item-title {
+  display: inline-block;
+  margin-top: 24px;
+  font-size: 24px;
+  color: #16191f;
+}
+
+.form-field-item-description {
+  margin: 6px 0;
+}
+
+.form-field-item-input {
+  width: 100%;
+}
+
+.management-field-items {
+  display: flex;
+  flex-wrap: wrap;
+
+  .form-field-item {
+    width: calc((100% - 24px) / 2);
+
+    // margin-top: 24px;
+    margin-right: 0;
+
+    &:nth-child(3),
+    &:nth-child(8) {
+      width: 100%;
+    }
+
+    &:nth-child(1),
+    &:nth-child(4),
+    &:nth-child(6),
+    &:nth-child(9),
+    &:nth-child(11) {
+      margin-right: 24px;
+    }
+  }
+}
+
+.price-field-items,
+.diamter-field-items {
+  display: flex;
+
+  .table-title {
+    width: 135px;
+  }
+
+  .form-field-item-input {
+    width: calc((100% - 135px) / 11);
+  }
+
+  fieldset {
+    border-radius: 0;
+  }
 }

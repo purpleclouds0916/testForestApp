@@ -1,0 +1,20 @@
+.form-card {
+  width: calc(100% - 200px);
+  max-width: 1200px;
+  height: inherit;
+  padding: 0 24px 24px;
+  margin: 24px;
+  margin: 0 auto;
+  margin-bottom: 48px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 2px 2px 6px gray;
+
+  .form-title {
+    padding: 32px 48px 32px 24px;
+    margin: 0 -24px;
+    font-size: 24px;
+    font-weight: 700;
+    background: #fafafa;
+  }
+}

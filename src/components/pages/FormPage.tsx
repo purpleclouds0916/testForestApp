@@ -12,6 +12,9 @@ import { ClearCutOtherTs } from '../../models/ClearCutOther';
 import formInformation from '../../data/FormInformation';
 import defaultData from '../../data/DefaultData';
 import FormNormal from 'components/Atoms/FormNormal';
+import { TextField } from '@mui/material';
+import FormItem from '../molecules/FormItem';
+import MultipleSelectPlaceholder from 'components/molecules/Select';
 
 const FormPage: VFC = () => {
   const [inputValues, setInputValue] = useState<{
@@ -98,12 +101,6 @@ const FormPage: VFC = () => {
           <FormArray
             inputValues={inputValues}
             setInputValue={setInputValue}
-            category="treeHeight"
-            className="tree-height-field-items"
-          />
-          <FormArray
-            inputValues={inputValues}
-            setInputValue={setInputValue}
             category="treeVolume"
             className="display-none"
           />
@@ -125,6 +122,23 @@ const FormPage: VFC = () => {
             category="nrf"
             className="display-none"
           />
+          <FormItem
+            title="林分密度管理図を選択する"
+            description="選択することで、最適な林分材積を計算することができます"
+          >
+            <MultipleSelectPlaceholder/>
+          </FormItem>
+          <FormItem
+            title="樹高の成長"
+            description="林齢tにおける樹高Hは以下の式で表されます"
+          >
+            <FormArray
+              inputValues={inputValues}
+              setInputValue={setInputValue}
+              category="treeHeight"
+              className="tree-height-field-items"
+            />
+          </FormItem>
         </>
       </FormCard>
       <FormCard title="経営方法の詳細">
@@ -136,51 +150,89 @@ const FormPage: VFC = () => {
           className="management-field-items"
         />
       </FormCard>
-      <FormCard title="間伐材の費用">
+      <FormCard title="間伐の費用">
         <>
           <FormObject
             formInformation={formInformation.thinningOther}
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="thinningOther"
-            className="other-items"
+            className="cut-other-field-items"
           />
-          <FormArray
-            inputValues={inputValues}
-            setInputValue={setInputValue}
-            category="thinningPrice"
-            className="price-items"
-          />
-          <FormArray
-            inputValues={inputValues}
-            setInputValue={setInputValue}
-            category="thinningDiamter"
-            className="diamter-items"
-          />
+          <FormItem
+            title="皆伐した木材の価格"
+            description="胸高直径に対する木材価格を入力してください。下のグラフを動かして変更することもできます"
+          >
+            <>
+              <FormArray
+                inputValues={inputValues}
+                setInputValue={setInputValue}
+                category="thinningPrice"
+                className="price-field-items"
+              >
+                <TextField
+                  disabled
+                  className="table-title"
+                  defaultValue="価格(円)"
+                />
+              </FormArray>
+              <FormArray
+                inputValues={inputValues}
+                setInputValue={setInputValue}
+                category="thinningDiamter"
+                className="diamter-field-items"
+              >
+                <TextField
+                  disabled
+                  className="table-title"
+                  defaultValue="胸高直径(cm)"
+                />
+              </FormArray>
+            </>
+          </FormItem>
         </>
       </FormCard>
 
-      <FormCard title="間伐材の費用">
+      <FormCard title="皆伐の費用">
         <>
           <FormObject
             formInformation={formInformation.clearCutOther}
             inputValues={inputValues}
             setInputValue={setInputValue}
             category="clearCutOther"
-            className="other-items"
+            className="cut-other-field-items"
           />
-          <FormArray
-            inputValues={inputValues}
-            setInputValue={setInputValue}
-            category="clearCutPrice"
-            className="price-items"
-          />
-          <FormArray
-            inputValues={inputValues}
-            setInputValue={setInputValue}
-            category="clearCutDiamter"
-            className="diamter-items"
-          />
+          <FormItem
+            title="間伐した木材の価格"
+            description="胸高直径に対する木材価格を入力してください。下のグラフを動かして変更することもできます"
+          >
+            <>
+              <FormArray
+                inputValues={inputValues}
+                setInputValue={setInputValue}
+                category="clearCutPrice"
+                className="price-field-items"
+              >
+                <TextField
+                  disabled
+                  className="table-title"
+                  defaultValue="価格(円)"
+                />
+              </FormArray>
+              <FormArray
+                inputValues={inputValues}
+                setInputValue={setInputValue}
+                category="clearCutDiamter"
+                className="diamter-field-items"
+              >
+                <TextField
+                  disabled
+                  className="table-title"
+                  defaultValue="胸高直径(cm)"
+                />
+              </FormArray>
+            </>
+          </FormItem>
         </>
       </FormCard>
       <input type="submit" value="Submit" />

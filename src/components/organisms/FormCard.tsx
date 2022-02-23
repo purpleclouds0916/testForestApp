@@ -1,4 +1,5 @@
 import { VFC } from 'react';
+import "./FormCard.css"
 
 type Props = {
   title: string;

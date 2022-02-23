@@ -7,14 +7,18 @@ import { ArrayFieldProps } from '../../models/ArrayFieldProps';
 
 import './Form.css';
 
-const FormArray: VFC<ArrayFieldProps> = (props) => {
-  const { inputValues, setInputValue, category, className } = props;
+type Props = {
+  children?: JSX.Element;
+};
+
+const FormArray: VFC<ArrayFieldProps & Props> = (props) => {
+  const { inputValues, setInputValue, category, className, children } = props;
 
   const ArrayFields = inputValues[category].map((_, index) => (
     <React.Fragment key={`${category}_${index}`}>
       <TextField
         id=""
-        className={"form-field-item"}
+        className={'form-field-item-input'}
         type="text"
         variant="outlined"
         value={inputValues[category][index]}
@@ -37,6 +41,7 @@ const FormArray: VFC<ArrayFieldProps> = (props) => {
 
   return (
     <div className={className + ' ' + 'form-field-items'}>
+      {children && children}
       {ArrayFields}
     </div>
   );
