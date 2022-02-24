@@ -128,7 +128,10 @@ const FormPage: VFC = () => {
             title="林分密度管理図を選択する"
             description="選択することで、最適な林分材積を計算することができます"
           >
-            <MultipleSelectPlaceholder />
+            <MultipleSelectPlaceholder
+              inputValues={inputValues}
+              setInputValue={setInputValue}
+            />
           </FormItem>
           <SelectFormula inputValues={inputValues} />
           <FormItem
