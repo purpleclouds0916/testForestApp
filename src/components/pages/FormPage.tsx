@@ -15,6 +15,7 @@ import FormNormal from 'components/Atoms/FormNormal';
 import { TextField } from '@mui/material';
 import FormItem from '../molecules/FormItem';
 import MultipleSelectPlaceholder from 'components/molecules/Select';
+import SelectFormula from 'components/molecules/SelectFormula';
 
 const FormPage: VFC = () => {
   const [inputValues, setInputValue] = useState<{
@@ -126,8 +127,9 @@ const FormPage: VFC = () => {
             title="林分密度管理図を選択する"
             description="選択することで、最適な林分材積を計算することができます"
           >
-            <MultipleSelectPlaceholder/>
+            <MultipleSelectPlaceholder />
           </FormItem>
+          <SelectFormula inputValues={inputValues} />
           <FormItem
             title="樹高の成長"
             description="林齢tにおける樹高Hは以下の式で表されます"

@@ -1,0 +1,18 @@
+.sdmd-katexs-items {
+  margin-top: 24px;
+
+  .sdmd-katex-formula {
+    margin: 0 auto 24px;
+  }
+
+  .sdmd-katex-description {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .explanation-item {
+      margin-right: 24px;
+      margin-bottom: 6px;
+    }
+  }
+}
