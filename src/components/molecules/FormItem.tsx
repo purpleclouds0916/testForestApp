@@ -6,8 +6,8 @@ import { VFC } from 'react';
 
 type Props = {
   children: JSX.Element;
-  title?: string;
-  description?: string;
+  title?: string | JSX.Element;
+  description?: string | JSX.Element;
 };
 
 const FormItem: VFC<Props> = (props) => {

@@ -2,40 +2,46 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable  */
 import { TextField } from '@mui/material';
+
 import React, { VFC } from 'react';
 import { ArrayFieldProps } from '../../models/ArrayFieldProps';
 
 import './Form.css';
+import FormItem from './FormItem';
 
 type Props = {
   children?: JSX.Element;
+  title?: JSX.Element[] | string[];
 };
 
 const FormArray: VFC<ArrayFieldProps & Props> = (props) => {
-  const { inputValues, setInputValue, category, className, children } = props;
+  const { inputValues, setInputValue, category, className, children, title } =
+    props;
 
   const ArrayFields = inputValues[category].map((_, index) => (
     <React.Fragment key={`${category}_${index}`}>
-      <TextField
-        id=""
-        className={'form-field-item-input'}
-        type="text"
-        variant="outlined"
-        value={inputValues[category][index]}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          const valueOfTheCategory: Array<number | string> = [];
-          inputValues[category].map((inputValue, nestIndex) =>
-            index === nestIndex
-              ? valueOfTheCategory.push(event.target.value)
-              : valueOfTheCategory.push(inputValue),
-          );
+      <FormItem title={title ? title[index] : undefined}>
+        <TextField
+          id=""
+          className={'form-field-item-input'}
+          type="text"
+          variant="outlined"
+          value={inputValues[category][index]}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            const valueOfTheCategory: Array<number | string> = [];
+            inputValues[category].map((inputValue, nestIndex) =>
+              index === nestIndex
+                ? valueOfTheCategory.push(event.target.value)
+                : valueOfTheCategory.push(inputValue),
+            );
 
-          setInputValue({
-            ...inputValues,
-            [category]: valueOfTheCategory,
-          });
-        }}
-      />
+            setInputValue({
+              ...inputValues,
+              [category]: valueOfTheCategory,
+            });
+          }}
+        />
+      </FormItem>
     </React.Fragment>
   ));
 

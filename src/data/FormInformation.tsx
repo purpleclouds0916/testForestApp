@@ -1,4 +1,6 @@
+import TeX from '@matejmazur/react-katex';
 import { FieldType } from '../models/FieldType';
+import 'katex/dist/katex.min.css';
 
 const thinningOther: FieldType[] = [
   {
@@ -41,7 +43,6 @@ const clearCutOther: FieldType[] = [
     unit: 'm',
   },
 ];
-
 
 const management: FieldType[] = [
   {
@@ -119,10 +120,17 @@ const management: FieldType[] = [
   },
 ];
 
+const treeHeightTitles = [
+  <TeX>{String.raw`a`}</TeX>,
+  <TeX>{String.raw`b`}</TeX>,
+  <TeX>{String.raw`c`}</TeX>,
+  <TeX>{String.raw`d`}</TeX>,
+];
 
 const formInformation = {
   thinningOther,
   clearCutOther,
-  management
+  management,
+  treeHeightTitles,
 };
 export default formInformation;

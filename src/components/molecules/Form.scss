@@ -16,6 +16,25 @@
   width: 100%;
 }
 
+.tree-height-field-items {
+  display: flex;
+
+  .form-field-item-title {
+    margin-top: 10px;
+    margin-right: 12px;
+  }
+
+  .form-field-item-input {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-right: 12px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
 .management-field-items {
   display: flex;
   flex-wrap: wrap;

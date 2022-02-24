@@ -16,6 +16,7 @@ import { TextField } from '@mui/material';
 import FormItem from '../molecules/FormItem';
 import MultipleSelectPlaceholder from 'components/molecules/Select';
 import SelectFormula from 'components/molecules/SelectFormula';
+import TreeHeightGrowthDescription from 'components/molecules/TreeHeightGrowthDescription';
 
 const FormPage: VFC = () => {
   const [inputValues, setInputValue] = useState<{
@@ -132,9 +133,10 @@ const FormPage: VFC = () => {
           <SelectFormula inputValues={inputValues} />
           <FormItem
             title="樹高の成長"
-            description="林齢tにおける樹高Hは以下の式で表されます"
+            description={<TreeHeightGrowthDescription />}
           >
             <FormArray
+              title={formInformation.treeHeightTitles}
               inputValues={inputValues}
               setInputValue={setInputValue}
               category="treeHeight"
