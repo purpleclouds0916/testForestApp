@@ -1,6 +1,10 @@
+/* eslint-disable prefer-template */
+/* eslint-disable no-useless-concat */
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-self-assign */
 /* eslint-disable no-return-assign */
-/* eslint-disable  */
+
 import { TextField } from '@mui/material';
 
 import React, { VFC } from 'react';
@@ -23,7 +27,7 @@ const FormArray: VFC<ArrayFieldProps & Props> = (props) => {
       <FormItem title={title ? title[index] : undefined}>
         <TextField
           id=""
-          className={'form-field-item-input'}
+          className="form-field-item-input"
           type="text"
           variant="outlined"
           value={inputValues[category][index]}

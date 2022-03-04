@@ -17,6 +17,9 @@ import FormItem from '../molecules/FormItem';
 import MultipleSelectPlaceholder from 'components/molecules/Select';
 import SelectFormula from 'components/molecules/SelectFormula';
 import TreeHeightGrowthDescription from 'components/molecules/TreeHeightGrowthDescription';
+import BasicLineChart from 'components/organisms/BasicLineChart';
+import ChartItem from 'components/organisms/ChartItem';
+import LineChart from 'components/organisms/LineChart';
 
 const FormPage: VFC = () => {
   const [inputValues, setInputValue] = useState<{
@@ -195,6 +198,16 @@ const FormPage: VFC = () => {
                   defaultValue="胸高直径(cm)"
                 />
               </FormArray>
+              <ChartItem title="タイトル">
+                <LineChart
+                  top={10}
+                  bottom={30}
+                  left={50}
+                  right={10}
+                  className="thinning-chart"
+                  idName='thinning-chart'
+                />
+              </ChartItem>
             </>
           </FormItem>
         </>
