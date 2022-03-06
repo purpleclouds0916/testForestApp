@@ -218,7 +218,7 @@ const FormPage: VFC = () => {
                 <LineChart
                   top={10}
                   bottom={30}
-                  left={50}
+                  left={65}
                   right={10}
                   className="thinning-chart"
                   idName="thinning-chart"
@@ -275,7 +275,7 @@ const FormPage: VFC = () => {
                 <LineChart
                   top={10}
                   bottom={30}
-                  left={50}
+                  left={65}
                   right={10}
                   className="clearCut-chart"
                   idName="clearCut-chart"

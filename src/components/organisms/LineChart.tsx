@@ -129,8 +129,8 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
               Math.round(d[1] / 100) * 100
             }円`,
           )
-          .style('top', `${y(yValue(d)) - 50}px`)
-          .style('left', `${x(xValue(d)) - 50}px`);
+          .style('top', `${y(yValue(d)) - 75}px`)
+          .style('left', `${x(xValue(d)) - 75}px`);
       })
       .on('mousemove', () => undefined)
       .on('mouseout', () => {
@@ -171,8 +171,8 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
           }円`,
         )
         .style('visibility', 'visible')
-        .style('top', `${y(yValue(d)) - 50}px`)
-        .style('left', `${x(xValue(d)) - 50}px`)
+        .style('top', `${y(yValue(d)) - 75}px`)
+        .style('left', `${x(xValue(d)) - 75}px`)
         .style('background-color', 'tomato');
     }
     // @ts-ignore
