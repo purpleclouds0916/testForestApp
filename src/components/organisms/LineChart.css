@@ -1,7 +1,7 @@
 .chart-items {
   width: auto;
   height: 600px;
-  margin: 0 auto;
+  margin: 24px auto 0;
 }
 
 .chart-items .chart-axis-x-title,

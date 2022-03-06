@@ -214,7 +214,7 @@ const FormPage: VFC = () => {
                   defaultValue="胸高直径(cm)"
                 />
               </FormArray>
-              <ChartItem title="タイトル">
+              <ChartItem axisX="胸高直径(cm)" axisY="金額(円)">
                 <LineChart
                   top={10}
                   bottom={30}
@@ -271,7 +271,7 @@ const FormPage: VFC = () => {
                   defaultValue="胸高直径(cm)"
                 />
               </FormArray>
-              <ChartItem title="タイトル">
+              <ChartItem axisX="胸高直径(cm)" axisY="金額(円)">
                 <LineChart
                   top={10}
                   bottom={30}
