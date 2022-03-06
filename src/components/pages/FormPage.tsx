@@ -50,6 +50,24 @@ const FormPage: VFC = () => {
     clearCutDiamter: defaultData.treeDiamter,
   });
 
+    const thinningData: number[][] = [];
+
+  // eslint-disable-next-line array-callback-return
+  inputValues.thinningPrice.map((_, index) => {
+    const Xelement = Number(inputValues.thinningDiamter[index]);
+    const Yelement = Number(inputValues.thinningPrice[index]);
+    thinningData[index] = [Xelement, Yelement];
+  });
+
+    const clearCutData: number[][] = [];
+
+  // eslint-disable-next-line array-callback-return
+  inputValues.thinningPrice.map((_, index) => {
+    const Xelement = Number(inputValues.clearCutDiamter[index]);
+    const Yelement = Number(inputValues.clearCutPrice[index]);
+    clearCutData[index] = [Xelement, Yelement];
+  });
+
   const handleSubmit = () => {
     const submitApiData = {
       SDMD: {
@@ -205,7 +223,11 @@ const FormPage: VFC = () => {
                   left={50}
                   right={10}
                   className="thinning-chart"
-                  idName='thinning-chart'
+                  idName="thinning-chart"
+                  inputValues={inputValues}
+                  setInputValue={setInputValue}
+                  data={thinningData}
+                  timingOfLogging="thinning"
                 />
               </ChartItem>
             </>
@@ -251,6 +273,20 @@ const FormPage: VFC = () => {
                   defaultValue="胸高直径(cm)"
                 />
               </FormArray>
+              <ChartItem title="タイトル">
+                <LineChart
+                  top={10}
+                  bottom={30}
+                  left={50}
+                  right={10}
+                  className="clearCut-chart"
+                  idName="clearCut-chart"
+                  inputValues={inputValues}
+                  setInputValue={setInputValue}
+                  data={clearCutData}
+                  timingOfLogging="clearCut"
+                />
+              </ChartItem>
             </>
           </FormItem>
         </>

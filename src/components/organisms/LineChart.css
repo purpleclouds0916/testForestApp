@@ -10,6 +10,7 @@
 }
 
 .line-chart {
+  position: relative;
   width: 100%;
   height: calc(100% - 72px);
 }
@@ -23,6 +24,7 @@
   color: #fff;
   background: #333;
   border-radius: 4px;
+  box-shadow: 2px 2px 4px gray;
 }
 
 text {

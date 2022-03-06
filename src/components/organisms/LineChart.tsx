@@ -3,10 +3,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/no-this-in-sfc */
 
-import { useEffect, useState, VFC } from 'react';
+import { useEffect, VFC } from 'react';
 import * as d3 from 'd3';
 
 import './LineChart.css';
+import { inputValuesTs } from '../../models/InputValues';
 
 interface IBasicLineChartProps {
   top: number;
@@ -15,22 +16,25 @@ interface IBasicLineChartProps {
   right: number;
   className: string;
   idName: string;
+  timingOfLogging: 'thinning' | 'clearCut';
+  data: number[][];
+  inputValues: inputValuesTs;
+  setInputValue: React.Dispatch<React.SetStateAction<inputValuesTs>>;
 }
 
 const LineChart: VFC<IBasicLineChartProps> = (props) => {
-  const [ChartData, setData] = useState([
-    [43, 176.8772426675182],
-    [86, 68.67966011721217],
-    [129, 174.35856262540509],
-    [172, 111.34545265260115],
-    [215, 160.75580980846613],
-    [258, 184.2397787208176],
-    [301, 139.90507917617077],
-    [344, 64.79036306601182],
-    [387, 116.75186646604297],
-  ]);
-
-  const { top, bottom, left, right, className, idName } = props;
+  const {
+    top,
+    bottom,
+    left,
+    right,
+    className,
+    idName,
+    inputValues,
+    setInputValue,
+    data,
+    timingOfLogging,
+  } = props;
 
   useEffect(() => {
     d3.select(`#${idName}`).selectAll('*').remove();
@@ -53,18 +57,21 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
       .scaleLinear()
       .domain([
         0,
-        d3.max(ChartData, () =>
-          Math.max(...ChartData.map((dt) => (dt as unknown as number[])[0]), 0),
+        d3.max(data, () =>
+          Math.max(...data.map((dt) => (dt as unknown as number[])[0]), 0),
         ),
       ] as number[])
       .range([0, width]);
 
-    const maxY = Number(d3.max(ChartData, (d: number[]) => d[1]));
+    const maxY = Number(d3.max(data, (d: number[]) => d[1]));
 
-    const y = d3.scaleLinear().domain([0, maxY]).range([height, 0]);
+    const y = d3
+      .scaleLinear()
+      .domain([0, maxY + 10000])
+      .range([height, 0]);
 
-    const xAxis = d3.axisBottom(x);
-    const yAxis = d3.axisLeft(y);
+    const xAxis = d3.axisBottom(x).ticks(8);
+    const yAxis = d3.axisLeft(y).ticks(7);
 
     const line = d3
       .line()
@@ -75,7 +82,7 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
 
     focus
       .append('path')
-      .datum(ChartData)
+      .datum(data)
       .attr('fill', 'none')
       .attr('stroke', 'steelblue')
       .attr('stroke-linejoin', 'round')
@@ -92,21 +99,19 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
 
     focus.append('g').attr('class', 'axis axis--y').call(yAxis);
 
-    //  削除可能にする
-
     const tooldiv = d3
       .select(`#${idName}`)
       .append('div')
+      .attr('class', 'tooltip')
       .style('visibility', 'hidden')
-      .style('position', 'absolute')
-      .style('background-color', 'red');
+      .style('position', 'absolute');
 
     const xValue = (d: number[]) => d[0];
     const yValue = (d: number[]) => d[1];
 
     focus
       .selectAll('circle')
-      .data(ChartData)
+      .data(data)
       .enter()
       .append('circle')
       .attr('r', 5.0)
@@ -119,7 +124,11 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
       .on('mouseover', (_e: MouseEvent, d: Array<number>) => {
         tooldiv
           .style('visibility', 'visible')
-          .text(`${d[0]}:${d[1]}`)
+          .html(
+            `胸高直径:${Math.round(d[0])}cm<br>金額:${
+              Math.round(d[1] / 100) * 100
+            }円`,
+          )
           .style('top', `${y(yValue(d)) - 50}px`)
           .style('left', `${x(xValue(d)) - 50}px`);
       })
@@ -131,7 +140,7 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
     const dragstarted = () => {
       tooldiv.style('visibility', 'visible');
     };
-
+    // @ts-ignore
     function dragged(this: SVGCircleElement, e: DragEvent, d: Array<number>) {
       // @ts-ignore
       focus.select('path').attr('d', line);
@@ -142,13 +151,13 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
 
       // dragの範囲を要素ごとに制限  xは0よりも大きく、次の要素よりも小さい値で前の要素よりも大きい値
       if (id === 0) {
-        d[0] = Math.max(0, Math.min(x.invert(e.x), ChartData[id + 1][0]));
-      } else if (id === ChartData.length - 1) {
-        d[0] = Math.max(ChartData[id - 1][0], x.invert(e.x));
+        d[0] = Math.max(0, Math.min(x.invert(e.x), data[id + 1][0]));
+      } else if (id === data.length - 1) {
+        d[0] = Math.max(data[id - 1][0], x.invert(e.x));
       } else {
         d[0] = Math.max(
-          ChartData[id - 1][0],
-          Math.min(x.invert(e.x), ChartData[id + 1][0]),
+          data[id - 1][0],
+          Math.min(x.invert(e.x), data[id + 1][0]),
         );
       }
 
@@ -156,13 +165,17 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
       d3.select(this).attr('cx', x(d[0])).attr('cy', y(d[1]));
 
       tooldiv
-        .text(`${d[0]}:${d[1]}`)
+        .html(
+          `胸高直径:${Math.round(d[0])}cm<br>金額:${
+            Math.round(d[1] / 100) * 100
+          }円`,
+        )
         .style('visibility', 'visible')
         .style('top', `${y(yValue(d)) - 50}px`)
         .style('left', `${x(xValue(d)) - 50}px`)
         .style('background-color', 'tomato');
     }
-
+    // @ts-ignore
     function dragended(
       this: SVGCircleElement,
       _e: DragEvent,
@@ -173,9 +186,15 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
 
       const id = Number(this.id);
 
-      setData(() =>
-        ChartData.map((data, index) => (index === id ? [d[0], d[1]] : data)),
-      );
+      setInputValue({
+        ...inputValues,
+        [`${timingOfLogging}Price`]: data.map((price, index) =>
+          index === id ? Math.round(d[1] / 100) * 100 : price[1],
+        ),
+        [`${timingOfLogging}Diamter`]: data.map((diamter, index) =>
+          index === id ? Math.round(d[0]) : diamter[0],
+        ),
+      });
     }
 
     const drag = d3
@@ -188,10 +207,6 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
 
     // @ts-ignore
     focus.selectAll('circle').call(drag);
-
-    // ここまで
-    // 削除するのはここまで
-    // グリッド線などの追加 これも選択可能にしたらいいねgrid=() => undefiendみたいに
 
     const makeXGridlines = () => d3.axisBottom(x).ticks(5);
 
@@ -220,7 +235,18 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
           // @ts-ignore
           .tickFormat(''),
       );
-  }, [bottom, className, ChartData, idName, left, right, top]);
+  }, [
+    bottom,
+    className,
+    data,
+    idName,
+    left,
+    right,
+    top,
+    setInputValue,
+    inputValues,
+    timingOfLogging,
+  ]);
 
   return <div className="line-chart" id={idName} />;
 };
