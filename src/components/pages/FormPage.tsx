@@ -1,6 +1,12 @@
-/* eslint-disable */
 import { useState, VFC } from 'react';
 
+import { TextField } from '@mui/material';
+import FormNormal from '../Atoms/FormNormal';
+import MultipleSelectPlaceholder from '../molecules/Select';
+import SelectFormula from '../molecules/SelectFormula';
+import TreeHeightGrowthDescription from '../molecules/TreeHeightGrowthDescription';
+import ChartItem from '../organisms/ChartItem';
+import LineChart from '../organisms/LineChart';
 import FormCard from '../organisms/FormCard';
 import FormObject from '../molecules/FormObject';
 import FormArray from '../molecules/FormArray';
@@ -11,15 +17,7 @@ import { ClearCutOtherTs } from '../../models/ClearCutOther';
 
 import formInformation from '../../data/FormInformation';
 import defaultData from '../../data/DefaultData';
-import FormNormal from 'components/Atoms/FormNormal';
-import { TextField } from '@mui/material';
 import FormItem from '../molecules/FormItem';
-import MultipleSelectPlaceholder from 'components/molecules/Select';
-import SelectFormula from 'components/molecules/SelectFormula';
-import TreeHeightGrowthDescription from 'components/molecules/TreeHeightGrowthDescription';
-import BasicLineChart from 'components/organisms/BasicLineChart';
-import ChartItem from 'components/organisms/ChartItem';
-import LineChart from 'components/organisms/LineChart';
 
 const FormPage: VFC = () => {
   const [inputValues, setInputValue] = useState<{
@@ -50,7 +48,7 @@ const FormPage: VFC = () => {
     clearCutDiamter: defaultData.treeDiamter,
   });
 
-    const thinningData: number[][] = [];
+  const thinningData: number[][] = [];
 
   // eslint-disable-next-line array-callback-return
   inputValues.thinningPrice.map((_, index) => {
@@ -59,7 +57,7 @@ const FormPage: VFC = () => {
     thinningData[index] = [Xelement, Yelement];
   });
 
-    const clearCutData: number[][] = [];
+  const clearCutData: number[][] = [];
 
   // eslint-disable-next-line array-callback-return
   inputValues.thinningPrice.map((_, index) => {
