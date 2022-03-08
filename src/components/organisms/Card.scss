@@ -1,4 +1,4 @@
-.form-card {
+.card {
   width: calc(100% - 200px);
   max-width: 1200px;
   height: inherit;
@@ -10,11 +10,24 @@
   border-radius: 8px;
   box-shadow: 2px 2px 6px gray;
 
-  .form-title {
+  &:first-child {
+    margin-top: 48px;
+  }
+
+  .title {
     padding: 32px 48px 32px 24px;
     margin: 0 -24px;
     font-size: 24px;
     font-weight: 700;
     background: #fafafa;
+  }
+}
+
+.result-cards {
+  .card {
+    position: relative;
+    width: calc(100% - 96px);
+    padding: 24px;
+    margin: 48px auto;
   }
 }

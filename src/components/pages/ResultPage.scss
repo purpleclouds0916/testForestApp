@@ -1,0 +1,92 @@
+.result-card-item {
+  padding: 0;
+  line-height: 1.7;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .result-card-last-item {
+    margin-bottom: 0;
+  }
+
+  li {
+    list-style: none;
+
+    &:last-child {
+      border-bottom: 1px solid;
+    }
+  }
+}
+
+.result-cards {
+  .cards {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.arrow-down {
+  position: absolute;
+  right: 60px;
+  bottom: -85px;
+  z-index: 10;
+  font-size: 120px;
+}
+
+.result-sev {
+  display: flex;
+  width: calc(100% - 96px);
+  padding: 0;
+  margin: 0 auto;
+  font-size: 18px;
+  list-style: none;
+  border-bottom: 1px solid;
+}
+
+//   .chart-wrapper {
+//     .card {
+//       @include mq ('sp') {
+//         width: auto;
+//         max-width: 100%;
+//         height: inherit;
+//         margin: 24px;
+//         margin: 0 auto;
+//         margin-bottom: 48px;
+//         background: #fff;
+//         border-radius: 0;
+//         box-shadow: none;
+//       }
+
+//       .result-title {
+//         @include mq ('sp') {
+//           padding: 6px;
+//           margin-right: 24px;
+//           margin-left: 24px;
+//           font-size: 24px;
+//           font-weight: 700;
+//           background: #fff;
+//           border-bottom: 3px solid steelblue;
+//         }
+//       }
+//     }
+//   }
+// }
+
+// .XtooltipText {
+//   width: 120px;
+// }
+
+// .management-detail-title {
+
+// }
+
+// .Exponentiation {
+//   font-size: 14px;
+//   vertical-align: super;
+// }
