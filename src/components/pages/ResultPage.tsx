@@ -1,27 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
-/* eslint-disable react/jsx-no-useless-fragment */
-/* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Key, VFC } from 'react';
+import { VFC } from 'react';
 import { useSelector } from 'react-redux';
 import ArrowDown from '../Atoms/ArrowDown';
-// import { BsFillArrowDownCircleFill } from 'react-icons/bs';
-// import { IconContext } from 'react-icons';
+
 import { RootState } from '../../redux/store';
 import Card from '../organisms/Card';
 import './ResultPage.css';
 import ResultLineChart from '../organisms/ResultLineChart';
 import ChartItem from '../organisms/ChartItem';
-
-// import ResultLineChart from '../organism/ResultLineChart';
-// import arrow from '../../img/arrow.jpeg';
-
-// import './Result.css';
 
 const Result: VFC = () => {
   const calculationResult = useSelector((state: RootState) => state);
@@ -63,65 +49,60 @@ const Result: VFC = () => {
               </>
             </Card>
 
-            <>
-              {calculationResult.SH_S.Optimal_solution.T.map(
-                (_item: number, i: number) => (
-                  <Card key={i}>
-                    <>
-                      <ul className="result-card-item">
-                        {/* 一番最後の要素で条件分岐 */}
-                        {calculationResult.SH_S.Optimal_solution.T.length -
-                          1 !==
-                        i ? (
-                          <li>{i + 1}回目の間伐のタイミング</li>
-                        ) : (
-                          <li>伐期</li>
-                        )}
-
-                        <li>
-                          {calculationResult.SH_S.Optimal_solution.T[i]}年
-                        </li>
-                      </ul>
-
-                      {/* 一番最後の要素以外で表示 */}
+            {calculationResult.SH_S.Optimal_solution.T.map(
+              (_item: number, i: number) => (
+                <Card key={i}>
+                  <>
+                    <ul className="result-card-item">
+                      {/* 一番最後の要素で条件分岐 */}
                       {calculationResult.SH_S.Optimal_solution.T.length - 1 !==
-                        i && (
-                        <ul className="result-card-item">
-                          <li>間伐後の植林密度</li>
-                          <li>
-                            {calculationResult.SH_S.Optimal_solution.N[i + 1]}
-                            本/ha
-                          </li>
-                        </ul>
+                      i ? (
+                        <li>{i + 1}回目の間伐のタイミング</li>
+                      ) : (
+                        <li>伐期</li>
                       )}
 
+                      <li>{calculationResult.SH_S.Optimal_solution.T[i]}年</li>
+                    </ul>
+
+                    {/* 一番最後の要素以外で表示 */}
+                    {calculationResult.SH_S.Optimal_solution.T.length - 1 !==
+                      i && (
                       <ul className="result-card-item">
-                        <li>収穫材積</li>
+                        <li>間伐後の植林密度</li>
                         <li>
-                          {calculationResult.SH_S.Optimal_solution.Y[i]}m
-                          <span className="Exponentiation">3</span>
+                          {calculationResult.SH_S.Optimal_solution.N[i + 1]}
+                          本/ha
                         </li>
                       </ul>
+                    )}
 
-                      <ul className="result-card-item result-card-last-item">
-                        <li>収益</li>
-                        <li>
-                          {
-                            calculationResult.SH_S.Optimal_solution
-                              .Harvesting_profit_no_discount[i]
-                          }
-                          円
-                        </li>
-                      </ul>
+                    <ul className="result-card-item">
+                      <li>収穫材積</li>
+                      <li>
+                        {calculationResult.SH_S.Optimal_solution.Y[i]}m
+                        <span className="Exponentiation">3</span>
+                      </li>
+                    </ul>
 
-                      {/* 一番最後の要素以外で表示 */}
-                      {calculationResult.SH_S.Optimal_solution.T.length - 1 !==
-                        i && <ArrowDown />}
-                    </>
-                  </Card>
-                ),
-              )}
-            </>
+                    <ul className="result-card-item result-card-last-item">
+                      <li>収益</li>
+                      <li>
+                        {
+                          calculationResult.SH_S.Optimal_solution
+                            .Harvesting_profit_no_discount[i]
+                        }
+                        円
+                      </li>
+                    </ul>
+
+                    {/* 一番最後の要素以外で表示 */}
+                    {calculationResult.SH_S.Optimal_solution.T.length - 1 !==
+                      i && <ArrowDown />}
+                  </>
+                </Card>
+              ),
+            )}
           </div>
           <ul className="result-sev">
             <li>
@@ -194,7 +175,11 @@ const Result: VFC = () => {
               increaseYaxis={500}
             />
           </ChartItem>
-          <ChartItem axisX="樹齢(年)" axisY="金額(万円)" title="林分の価値の推移">
+          <ChartItem
+            axisX="樹齢(年)"
+            axisY="金額(万円)"
+            title="林分の価値の推移"
+          >
             <ResultLineChart
               top={10}
               bottom={30}
@@ -209,62 +194,6 @@ const Result: VFC = () => {
           </ChartItem>
         </>
       </Card>
-
-      {/* <div className="chart-wrapper">
-        <div className="card">
-          <div className="result-title">施業方法の詳細</div>
-          <div className="">
-            <div className="chart-items">
-              <ResultLineChart
-                title="樹高の推移"
-                arrayX={ageforest}
-                arrayY={treeHeight}
-                DigitsOfYaxis={10}
-                yaxisTitle="樹高"
-                yaxisUnit="m"
-                tooltipWidth={90}
-              />
-              <ResultLineChart
-                title="立木密度の推移"
-                arrayX={ageforest}
-                arrayY={standDensity}
-                DigitsOfYaxis={1000}
-                yaxisTitle="立木密度"
-                yaxisUnit="本/ha"
-                tooltipWidth={150}
-              />
-              <ResultLineChart
-                title="林分材積の推移"
-                arrayX={ageforest}
-                arrayY={ForestStandTimberArea}
-                DigitsOfYaxis={100}
-                yaxisTitle="材積"
-                yaxisUnit="㎥"
-                tooltipWidth={90}
-              />
-              <ResultLineChart
-                title="平均胸高直径の推移"
-                arrayX={ageforest}
-                arrayY={DBH}
-                DigitsOfYaxis={10}
-                yaxisTitle="胸高直径"
-                yaxisUnit="cm"
-                tooltipWidth={110}
-              />
-              <ResultLineChart
-                title="林分の価値"
-                arrayX={ageforest}
-                arrayY={cutAllMony}
-                DigitsOfYaxis={1000000}
-                yaxisTitle="金額"
-                yaxisUnit="万円"
-                tooltipWidth={100}
-                givenInUnits={10000}
-              />
-            </div>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };
