@@ -22,7 +22,7 @@ interface IBasicLineChartProps {
   setInputValue: React.Dispatch<React.SetStateAction<inputValuesTs>>;
 }
 
-const LineChart: VFC<IBasicLineChartProps> = (props) => {
+const MoveLineChart: VFC<IBasicLineChartProps> = (props) => {
   const {
     top,
     bottom,
@@ -251,4 +251,4 @@ const LineChart: VFC<IBasicLineChartProps> = (props) => {
   return <div className="line-chart" id={idName} />;
 };
 
-export default LineChart;
+export default MoveLineChart;

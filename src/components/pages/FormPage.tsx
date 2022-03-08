@@ -6,7 +6,7 @@ import MultipleSelectPlaceholder from '../molecules/Select';
 import SelectFormula from '../molecules/SelectFormula';
 import TreeHeightGrowthDescription from '../molecules/TreeHeightGrowthDescription';
 import ChartItem from '../organisms/ChartItem';
-import LineChart from '../organisms/LineChart';
+import MoveLineChart from '../organisms/MoveLineChart';
 import FormCard from '../organisms/Card';
 import FormObject from '../molecules/FormObject';
 import FormArray from '../molecules/FormArray';
@@ -215,7 +215,7 @@ const FormPage: VFC = () => {
                 />
               </FormArray>
               <ChartItem axisX="胸高直径(cm)" axisY="金額(円)">
-                <LineChart
+                <MoveLineChart
                   top={10}
                   bottom={30}
                   left={65}
@@ -272,7 +272,7 @@ const FormPage: VFC = () => {
                 />
               </FormArray>
               <ChartItem axisX="胸高直径(cm)" axisY="金額(円)">
-                <LineChart
+                <MoveLineChart
                   top={10}
                   bottom={30}
                   left={65}
