@@ -49,21 +49,18 @@ const FormPage: VFC = () => {
   });
 
   const thinningData: number[][] = [];
-
-  // eslint-disable-next-line array-callback-return
-  inputValues.thinningPrice.map((_, index) => {
-    const Xelement = Number(inputValues.thinningDiamter[index]);
-    const Yelement = Number(inputValues.thinningPrice[index]);
-    thinningData[index] = [Xelement, Yelement];
-  });
-
   const clearCutData: number[][] = [];
 
   // eslint-disable-next-line array-callback-return
   inputValues.thinningPrice.map((_, index) => {
-    const Xelement = Number(inputValues.clearCutDiamter[index]);
-    const Yelement = Number(inputValues.clearCutPrice[index]);
-    clearCutData[index] = [Xelement, Yelement];
+    thinningData[index] = [
+      Number(inputValues.thinningDiamter[index]),
+      Number(inputValues.thinningPrice[index]),
+    ];
+    clearCutData[index] = [
+      Number(inputValues.clearCutDiamter[index]),
+      Number(inputValues.clearCutPrice[index]),
+    ];
   });
 
   const handleSubmit = () => {
