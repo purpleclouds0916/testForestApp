@@ -17,7 +17,7 @@ const FormItem: VFC<Props> = (props) => {
     <>
       {title && <div className={' form-field-item-title'}>{title}</div>}
       {description && (
-        <p className="form-field-item-description">{description}</p>
+        <div className="form-field-item-description">{description}</div>
       )}
       {children}
     </>
