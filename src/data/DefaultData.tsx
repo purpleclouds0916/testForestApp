@@ -3,23 +3,23 @@
 import { ThinningOtherTs } from '../models/ThinningOther';
 import { ClearCutOtherTs } from '../models/ClearCutOther';
 
-const treeHeight = [1, 2, 3, 4];
+const treeHeight = [32.8441393, -1, -0.01360109, 4];
 const treeVolume = [1, 2, 3, 4];
 const dbh = [1, 2, 3];
 const highStandShape = [1, 2, 3];
 const management = {
-  minimumDensity: 122,
-  maximumDensity: 1,
-  minimumClearcut: 1,
-  reforestationCost: 1,
-  priceSaplings: 1,
-  minimumThinning: 1,
-  maximumThinning: 1,
-  annualProfit: 1,
-  ageOfStartThinning: 1,
-  ageOfEndThinning: 1,
-  thinningInterval: 1,
-  maximumNumberOfThinning: 1,
+  minimumDensity: 500,
+  maximumDensity: 5000,
+  minimumClearcut: 450,
+  reforestationCost: 1953682,
+  priceSaplings: 375,
+  minimumThinning: 10,
+  maximumThinning: 50,
+  annualProfit: 0.8,
+  ageOfStartThinning: 10,
+  ageOfEndThinning: 200,
+  thinningInterval: 5,
+  maximumNumberOfThinning: 10,
 };
 
 const treePrice: Array<number | string> = [
@@ -31,15 +31,15 @@ const treeDiamter: Array<number | string> = [
 ];
 
 const thinningOther: ThinningOtherTs = {
-  thinningYieldRate: 10,
-  thinningCost: 10,
-  thinningStumpHeight: 10,
+  thinningYieldRate: 0.58,
+  thinningCost: 10947,
+  thinningStumpHeight: 0.5,
 };
 
 const clearCutOther: ClearCutOtherTs = {
-  clearCutYieldRate: 10,
-  clearCutCost: 10,
-  clearCutStumpHeight: 10,
+  clearCutYieldRate: 0.58,
+  clearCutCost: 6869,
+  clearCutStumpHeight: 0.5,
 };
 
 const defaultData = {
