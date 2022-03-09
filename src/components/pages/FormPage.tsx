@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { useState, VFC } from 'react';
-
 import { TextField } from '@mui/material';
 import FormNormal from '../Atoms/FormNormal';
 import MultipleSelectPlaceholder from '../molecules/Select';
@@ -63,50 +65,70 @@ const FormPage: VFC = () => {
     ];
   });
 
-  const handleSubmit = () => {
+  // const [testApi, setTestApi] = useState()
+  // eslint-disable-next-line
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     const submitApiData = {
-      SDMD: {
-        NRf: inputValues.nrf,
-        H: inputValues.treeHeight,
-        V: inputValues.treeVolume,
-        DBH: inputValues.dbh,
-        HF: inputValues.highStandShape,
-      },
-      Density: {
-        Plant: [
-          inputValues.management.minimumDensity,
-          inputValues.management.maximumDensity,
+      SH: {
+        YieldModelType: 'S',
+        SAType: '2021',
+        SDMD: {
+          NRf: inputValues.nrf,
+          // H: inputValues.treeHeight,
+          H: [32.8441393, -1, -0.01360109, 0.92437505],
+          V: inputValues.treeVolume,
+          DBH: inputValues.dbh,
+          HF: inputValues.highStandShape,
+        },
+        Density: {
+          Plant: [
+            inputValues.management.minimumDensity,
+            inputValues.management.maximumDensity,
+          ],
+          MinimumAtClearcut: inputValues.management.minimumClearcut,
+        },
+        RegenerationCost: [
+          inputValues.management.reforestationCost,
+          inputValues.management.priceSaplings,
         ],
-        Minimum: inputValues.management.minimumClearcut,
-      },
-      RegenerationCost: [
-        inputValues.management.reforestationCost,
-        inputValues.management.priceSaplings,
-      ],
-      ThinningPercent: [
-        inputValues.management.minimumThinning,
-        inputValues.management.maximumThinning,
-      ],
-      AnnualInterestPercent: inputValues.management.annualProfit,
-      HarvestingAges: [
-        inputValues.management.ageOfStartThinning,
-        inputValues.management.ageOfEndThinning,
-        inputValues.management.thinningInterval,
-      ],
-      MaxNumOfHarvest: inputValues.management.maximumNumberOfThinning,
-      Thinning: {
-        YieldRate: inputValues.thinningOther.thinningYieldRate,
-        Cost: inputValues.thinningOther.thinningCost,
-        StumpHeight: inputValues.thinningOther.thinningStumpHeight,
-        Diameter: inputValues.thinningDiamter,
-        Price: inputValues.thinningPrice,
-      },
-      Clearcut: {
-        YieldRate: inputValues.clearCutOther.clearCutYieldRate,
-        Cost: inputValues.clearCutOther.clearCutCost,
-        StumpHeight: inputValues.clearCutOther.clearCutStumpHeight,
-        Diameter: inputValues.clearCutDiamter,
-        Price: inputValues.clearCutPrice,
+        ThinningPercent: [
+          inputValues.management.minimumThinning,
+          inputValues.management.maximumThinning,
+        ],
+        AnnualInterestPercent: inputValues.management.annualProfit,
+        HarvestingAges: [
+          inputValues.management.ageOfStartThinning,
+          inputValues.management.ageOfEndThinning,
+          inputValues.management.thinningInterval,
+        ],
+        MaxNumOfHarvest: inputValues.management.maximumNumberOfThinning,
+        NumSearch: [3, 10000],
+        Thinning: {
+          YieldRate: inputValues.thinningOther.thinningYieldRate,
+          Cost: inputValues.thinningOther.thinningCost,
+          StumpHeight: inputValues.thinningOther.thinningStumpHeight,
+          Diameter: inputValues.thinningDiamter,
+          Price: inputValues.thinningPrice,
+        },
+        Clearcut: {
+          YieldRate: inputValues.clearCutOther.clearCutYieldRate,
+          Cost: inputValues.clearCutOther.clearCutCost,
+          StumpHeight: inputValues.clearCutOther.clearCutStumpHeight,
+          Diameter: inputValues.clearCutDiamter,
+          Price: inputValues.clearCutPrice,
+        },
+        SA: {
+          Comment: 'Type L 1000 yen/ha degradation for SEV',
+          NumRepeat: 40,
+          NumTempLevel: 100,
+          MetaSearchPercentile: 0.75,
+          NumTotalLoopN: [1, 8],
+          NumTotalLoopPow: [3.55, 6.75],
+          StartTemp: [0, -0.6, 0.6, 5],
+          DiffTemp: [0, -3.8, 1.4, 5],
+          DistScale: [0, -1.2, 0.6, 5],
+        },
       },
     };
     alert(JSON.stringify(submitApiData));
