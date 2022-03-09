@@ -26,18 +26,17 @@ const Home: VFC<Props> = (props) => {
           <div className="title">{title}</div>
           <div className="description">{description}</div>
           <div className="home-buttons">
-            {isMainPage ? (
-              // eslint-disable-next-line react/jsx-no-useless-fragment
+            {/* {isMainPage ? (
               <>
-                {/* <Link to="/document">
+                <Link to="/document">
                   <div className="link-button">説明を見る</div>
-                </Link> */}
+                </Link>
               </>
             ) : (
               <Link to="/">
                 <div className="link-button">戻る</div>
               </Link>
-            )}
+            )} */}
             <Link to="/form">
               <div className="link-button try-button">試してみる</div>
             </Link>
