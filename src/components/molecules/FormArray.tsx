@@ -2,8 +2,6 @@
 /* eslint-disable no-useless-concat */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable no-self-assign */
-/* eslint-disable no-return-assign */
 
 import { TextField } from '@mui/material';
 

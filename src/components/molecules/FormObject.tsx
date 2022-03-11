@@ -1,6 +1,7 @@
+/* eslint-disable no-useless-concat */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable no-self-assign */
 /* eslint-disable no-return-assign */
-/* eslint-disable */
 
 import { InputAdornment, TextField } from '@mui/material';
 
@@ -59,7 +60,7 @@ const FormObject: VFC<ObjectFieldProps> = (props) => {
   ));
 
   return (
-    <div className={className + ' ' + 'form-field-items'}>{ArrayFields}</div>
+    <div className={`${className} ` + `form-field-items`}>{ArrayFields}</div>
   );
 };
 

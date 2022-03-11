@@ -1,8 +1,6 @@
 import { InputValuesTs } from './InputValues';
 
-export interface NormalFieldProps {
-  inputValues: InputValuesTs;
+export interface UseInputValues {
+  inputValues: InputValuesTs
   setInputValue: React.Dispatch<React.SetStateAction<InputValuesTs>>;
-  className?: string;
-  category: 'nrf';
 }

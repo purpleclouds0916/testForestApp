@@ -1,11 +1,11 @@
 import { FieldType } from './FieldType';
-// import { FormState } from './FormState';
-import { inputValuesTs } from './InputValues';
+import { InputValuesTs } from './InputValues';
 
 export interface ObjectFieldProps {
   formInformation: FieldType[];
-  inputValues: inputValuesTs;
-  setInputValue: React.Dispatch<React.SetStateAction<inputValuesTs>>;
+  inputValues: InputValuesTs;
+  setInputValue: React.Dispatch<React.SetStateAction<InputValuesTs>>;
   className?: string;
   category: 'thinningOther' | 'management' | 'clearCutOther';
 }
+

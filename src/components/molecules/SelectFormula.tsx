@@ -1,14 +1,10 @@
 import TeX from '@matejmazur/react-katex';
 import { VFC } from 'react';
-import { inputValuesTs } from '../../models/InputValues';
+import { InputValuesTs } from '../../models/InputValues';
 import 'katex/dist/katex.min.css';
 import './SelectFormula.css';
 
-interface Props {
-  inputValues: inputValuesTs;
-}
-
-const SelectFormula: VFC<Props> = (props) => {
+const SelectFormula: VFC<{ inputValues: InputValuesTs }> = (props) => {
   const { inputValues } = props;
 
   return (

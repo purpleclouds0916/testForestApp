@@ -1,8 +1,8 @@
-import { inputValuesTs } from './InputValues';
+import { InputValuesTs } from './InputValues';
 
 export interface ArrayFieldProps {
-  inputValues: inputValuesTs;
-  setInputValue: React.Dispatch<React.SetStateAction<inputValuesTs>>;
+  inputValues: InputValuesTs;
+  setInputValue: React.Dispatch<React.SetStateAction<InputValuesTs>>;
   className?: string;
   category:
     | 'thinningPrice'

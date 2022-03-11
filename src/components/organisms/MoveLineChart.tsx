@@ -7,7 +7,7 @@ import { useEffect, VFC } from 'react';
 import * as d3 from 'd3';
 
 import './LineChart.css';
-import { inputValuesTs } from '../../models/InputValues';
+import { UseInputValues } from '../../models/UseInputValues';
 
 interface IBasicLineChartProps {
   top: number;
@@ -16,13 +16,11 @@ interface IBasicLineChartProps {
   right: number;
   className: string;
   idName: string;
-  timingOfLogging: 'thinning' | 'clearCut';
+  cutMethod: 'thinning' | 'clearCut';
   data: number[][];
-  inputValues: inputValuesTs;
-  setInputValue: React.Dispatch<React.SetStateAction<inputValuesTs>>;
 }
 
-const MoveLineChart: VFC<IBasicLineChartProps> = (props) => {
+const MoveLineChart: VFC<IBasicLineChartProps & UseInputValues> = (props) => {
   const {
     top,
     bottom,
@@ -33,7 +31,7 @@ const MoveLineChart: VFC<IBasicLineChartProps> = (props) => {
     inputValues,
     setInputValue,
     data,
-    timingOfLogging,
+    cutMethod,
   } = props;
 
   useEffect(() => {
@@ -188,10 +186,10 @@ const MoveLineChart: VFC<IBasicLineChartProps> = (props) => {
 
       setInputValue({
         ...inputValues,
-        [`${timingOfLogging}Price`]: data.map((price, index) =>
+        [`${cutMethod}Price`]: data.map((price, index) =>
           index === id ? Math.round(d[1] / 100) * 100 : price[1],
         ),
-        [`${timingOfLogging}Diamter`]: data.map((diamter, index) =>
+        [`${cutMethod}Diamter`]: data.map((diamter, index) =>
           index === id ? Math.round(d[0]) : diamter[0],
         ),
       });
@@ -245,7 +243,7 @@ const MoveLineChart: VFC<IBasicLineChartProps> = (props) => {
     top,
     setInputValue,
     inputValues,
-    timingOfLogging,
+    cutMethod,
   ]);
 
   return <div className="line-chart" id={idName} />;

@@ -4,16 +4,11 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import StandDensityData from '../../data/StandDensityData.json';
 import './Select.css';
-import { inputValuesTs } from '../../models/InputValues';
-
-interface Props {
-  inputValues: inputValuesTs;
-  setInputValue: React.Dispatch<React.SetStateAction<inputValuesTs>>;
-}
+import { UseInputValues } from '../../models/UseInputValues';
 
 type StandDensityKeys = keyof typeof StandDensityData;
 // eslint-disable-next-line  @typescript-eslint/explicit-module-boundary-types
-const SelectLabels: VFC<Props> = (props) => {
+const SelectLabels: VFC<UseInputValues> = (props) => {
   const { inputValues, setInputValue } = props;
 
   const [standDensity, setStandDensity] =

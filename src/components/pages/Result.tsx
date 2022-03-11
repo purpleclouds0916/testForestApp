@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-no-useless-fragment */
 import { VFC } from 'react';
 import { useSelector } from 'react-redux';
 import ArrowDown from '../Atoms/ArrowDown';
 
 import { RootState } from '../../redux/store';
 import Card from '../organisms/Card';
-import './ResultPage.css';
+import './Result.css';
 import ResultLineChart from '../organisms/ResultLineChart';
 import ChartItem from '../organisms/ChartItem';
 import Home from './Home';
@@ -40,9 +39,9 @@ const Result: VFC = () => {
   });
 
   return (
-    <div className="result-wrapper">
+    <>
       {calculationResult.SH_S !== null ? (
-        <>
+        <div className="result-wrapper">
           <Card title="提案された施業方法">
             <>
               <div className="result-cards">
@@ -64,7 +63,6 @@ const Result: VFC = () => {
                       <>
                         {calculationResult.SH_S && (
                           <>
-                            {' '}
                             <ul className="result-card-item">
                               {/* 一番最後の要素で条件分岐 */}
                               {calculationResult.SH_S.Optimal_solution.T
@@ -126,7 +124,8 @@ const Result: VFC = () => {
               </div>
               <ul className="result-sev">
                 <li>
-                  この施業の土地希望価(SEV)<span className="hidden-sp">：</span>
+                  この施業の土地希望価(SEV)
+                  <span className="hidden-sp">：</span>
                 </li>
                 <li>{calculationResult.SH_S.Optimal_solution.SEV}円</li>
               </ul>
@@ -214,7 +213,7 @@ const Result: VFC = () => {
               </ChartItem>
             </>
           </Card>
-        </>
+        </div>
       ) : (
         <Home
           title="フォームからデータを送信してください"
@@ -223,7 +222,7 @@ const Result: VFC = () => {
           buttonText="フォームに移動する"
         />
       )}
-    </div>
+    </>
   );
 };
 

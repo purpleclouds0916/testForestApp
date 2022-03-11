@@ -1,7 +1,7 @@
 import { useEffect, VFC } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
 
-import ResultPage from './components/pages/ResultPage';
+import ResultPage from './components/pages/Result';
 
 import FormPage from './components/pages/FormPage';
 import Home from './components/pages/Home';

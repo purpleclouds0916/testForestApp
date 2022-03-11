@@ -1,7 +1,3 @@
-/* eslint-disable no-self-assign */
-/* eslint-disable no-return-assign */
-/* eslint-disable */
-
 import { VFC } from 'react';
 
 type Props = {
@@ -15,7 +11,7 @@ const FormItem: VFC<Props> = (props) => {
 
   return (
     <>
-      {title && <div className={' form-field-item-title'}>{title}</div>}
+      {title && <div className="form-field-item-title">{title}</div>}
       {description && (
         <div className="form-field-item-description">{description}</div>
       )}

@@ -2,7 +2,7 @@ import { Management } from './ManagementModels';
 import { ThinningOtherTs } from './ThinningOther';
 import { ClearCutOtherTs } from './ClearCutOther';
 
-export interface inputValuesTs {
+export interface InputValuesTs {
   treeHeight: Array<number | string>;
   treeVolume: Array<number | string>;
   highStandShape: Array<number | string>;
