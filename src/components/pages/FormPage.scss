@@ -1,4 +1,4 @@
-.isCalculation {
+.is-calculation {
   position: fixed;
   top: 0;
   bottom: auto;
@@ -13,7 +13,7 @@
   transition: all 0.3s linear 0s;
   transform: translateX(0);
 
-  .wrapper {
+  .is-calculation-wrapper {
     position: absolute;
     top: 50%;
     left: 50%;

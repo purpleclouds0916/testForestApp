@@ -1,4 +1,4 @@
-.isCalculation {
+.is-calculation {
   position: fixed;
   top: 0;
   bottom: auto;
@@ -12,7 +12,7 @@
   transform: translateX(0);
 }
 
-.isCalculation .wrapper {
+.is-calculation .is-calculation-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -20,12 +20,12 @@
   transform: translate(-50%, -50%);
 }
 
-.isCalculation .wrapper .circularprogres {
+.is-calculation .is-calculation-wrapper .circularprogres {
   position: relative;
   text-align: center;
 }
 
-.isCalculation .text {
+.is-calculation .text {
   font-size: 20px;
 }
 

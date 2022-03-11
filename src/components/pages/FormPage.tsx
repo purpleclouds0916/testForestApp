@@ -355,8 +355,8 @@ const FormPage: VFC = () => {
       </FormCard>
       <input className="submit-button" type="submit" value="計算する" />
       {loading && (
-        <div className="isCalculation">
-          <div className="wrapper">
+        <div className="is-calculation">
+          <div className="is-calculation-wrapper">
             <div className="circularprogres">
               <CircularProgress disableShrink size={60} />
             </div>
