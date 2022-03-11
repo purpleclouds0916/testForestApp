@@ -250,7 +250,7 @@ const FormPage: VFC = () => {
             className="cut-other-field-items"
           />
           <FormItem
-            title="皆伐した木材の価格"
+            title="間伐した木材の価格"
             description="胸高直径に対する木材価格を入力してください。下のグラフを動かして変更することもできます"
           >
             <>
@@ -307,7 +307,7 @@ const FormPage: VFC = () => {
             className="cut-other-field-items"
           />
           <FormItem
-            title="間伐した木材の価格"
+            title="皆伐した木材の価格"
             description="胸高直径に対する木材価格を入力してください。下のグラフを動かして変更することもできます"
           >
             <>
