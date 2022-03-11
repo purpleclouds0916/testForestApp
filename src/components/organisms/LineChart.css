@@ -1,7 +1,6 @@
 .chart-items {
   width: auto;
   height: 600px;
-  padding-bottom: 60px;
   margin: 24px auto 0;
 }
 
@@ -17,6 +16,10 @@
 
 .chart-items .chart-title {
   font-size: 24px;
+}
+
+.result-wrapper .chart-items {
+  padding-bottom: 60px;
 }
 
 .line-chart {
