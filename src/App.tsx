@@ -4,7 +4,7 @@ import { Route, Routes, useLocation } from 'react-router';
 import ResultPage from './components/pages/ResultPage';
 
 import FormPage from './components/pages/FormPage';
-import Home from './components/pages/HomePage';
+import Home from './components/pages/Home';
 
 const App: VFC = () => {
   const { hash, pathname } = useLocation();
@@ -23,7 +23,6 @@ const App: VFC = () => {
               <Home
                 title="林業の経営シミュレーション"
                 description="経営に必要なデータを入力するだけで、最適な施業方法を提案します"
-                isMainPage
               />
             }
           />
