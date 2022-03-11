@@ -19,5 +19,5 @@ export interface CalculationResultType {
         D: number[];
         Value_of_standing_trees_no_discount: number[];
       };
-    };
+    } | null;
   }
