@@ -19,16 +19,15 @@ const SelectLabels: VFC<Props> = (props) => {
   const [standDensity, setStandDensity] =
     useState<StandDensityKeys>('tohokuSugi');
   const handleChange = (event: SelectChangeEvent<StandDensityKeys>) => {
-    // エラーを消す方法がわからないので、聞きたい
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setStandDensity(event.target.value);
+    const newStandDensity = event.target.value as unknown as StandDensityKeys;
+
+    setStandDensity(newStandDensity);
     setInputValue({
       ...inputValues,
-      treeVolume: StandDensityData[standDensity].SDMD.V,
-      nrf: StandDensityData[standDensity].SDMD.NRf,
-      dbh: StandDensityData[standDensity].SDMD.DBH,
-      highStandShape: StandDensityData[standDensity].SDMD.HF,
+      treeVolume: StandDensityData[newStandDensity].SDMD.V,
+      nrf: StandDensityData[newStandDensity].SDMD.NRf,
+      dbh: StandDensityData[newStandDensity].SDMD.DBH,
+      highStandShape: StandDensityData[newStandDensity].SDMD.HF,
     });
   };
 
