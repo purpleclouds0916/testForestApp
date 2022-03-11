@@ -1,3 +1,4 @@
+/* stylelint-disable color-function-notation */
 /* stylelint-disable alpha-value-notation */
 .home-body {
   position: relative;
@@ -23,14 +24,14 @@
       width: 100%;
       height: 100%;
       content: '';
-      background: linear-gradient(rgb(250 250 250 / 0) 0, #fff 80%);
+      background: linear-gradient(rgba(255, 255, 255, 0) 0, #fff 80%);
     }
   }
 
   .home-wrapper {
     margin-bottom: 64px;
 
-    .home-content {
+    .card {
       display: block;
       width: 810px;
       max-width: 100%;
@@ -40,7 +41,7 @@
       background: #fff;
       background-color: #fff;
       border-radius: 8px;
-      box-shadow: 2px 2px 6px rgb(0 0 0 /  40%);
+      box-shadow: 2px 2px 6px gray;
 
       //   @include mq ('tab') {
       //     width: 600px;
@@ -56,7 +57,7 @@
       margin-bottom: 12px;
     }
 
-    .title {
+    .home-title {
       margin-bottom: 12px;
       font-size: 32px;
       font-weight: 700;
@@ -66,7 +67,7 @@
       //   }
     }
 
-    .description {
+    .home-description {
       margin-bottom: 12px;
       font-size: 24px;
 
@@ -101,7 +102,7 @@
         display: block;
         width: 300px;
         padding: 22px 24px;
-        margin-right: 32px;
+        margin-right: 0px;
         margin-bottom: 48px;
         font-size: 24px;
         font-weight: 700;
