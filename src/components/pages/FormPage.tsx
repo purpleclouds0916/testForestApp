@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { useState, VFC } from 'react';
-import { TextField } from '@mui/material';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { CircularProgress, TextField } from '@mui/material';
 import FormNormal from '../Atoms/FormNormal';
 import MultipleSelectPlaceholder from '../molecules/Select';
 import SelectFormula from '../molecules/SelectFormula';
@@ -19,9 +23,19 @@ import { ClearCutOtherTs } from '../../models/ClearCutOther';
 
 import formInformation from '../../data/FormInformation';
 import defaultData from '../../data/DefaultData';
+import testFormData from '../../data/testFormData.json';
 import FormItem from '../molecules/FormItem';
+import { AppDispatch, RootState } from '../../redux/store';
+import { addCalculationResult } from '../../redux/CalculationResultSlice';
+import { CalculationResultType } from '../../models/CalculationResult';
+
+import './FormPage.css';
 
 const FormPage: VFC = () => {
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
   const [inputValues, setInputValue] = useState<{
     treeHeight: Array<number | string>;
     treeVolume: Array<number | string>;
@@ -69,14 +83,19 @@ const FormPage: VFC = () => {
   // eslint-disable-next-line
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    setLoading(true);
     const submitApiData = {
       SH: {
         YieldModelType: 'S',
         SAType: '2021',
         SDMD: {
           NRf: inputValues.nrf,
-          // H: inputValues.treeHeight,
-          H: [32.8441393, -1, -0.01360109, 0.92437505],
+          H: [
+            inputValues.treeHeight[0],
+            - Math.exp(Number(inputValues.treeHeight[1]) * Number(inputValues.treeHeight[2])),
+            - inputValues.treeHeight[1],
+            inputValues.treeHeight[3],
+          ],
           V: inputValues.treeVolume,
           DBH: inputValues.dbh,
           HF: inputValues.highStandShape,
@@ -131,7 +150,33 @@ const FormPage: VFC = () => {
         },
       },
     };
-    alert(JSON.stringify(submitApiData));
+
+    // ※高知大学のWi-Fiを利用しないと必ずエラーになる(セキュリティの関係上)
+    void axios
+      .post<CalculationResultType>('/calculation/', submitApiData)
+      .then((res) => {
+        dispatch(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          addCalculationResult(JSON.parse(res.data as unknown as string)),
+        );
+        navigate('/submit');
+      })
+      .catch(() => {
+        //  元々のコード
+        // alert(
+        //   '計算に失敗しました。お手数ですが、管理者に問い合わせをしてください。',
+        // );
+
+        // 以下はテストように開発
+        // eslint-disable-next-line no-alert
+        alert('計算に失敗しました。これより、デモの計算結果ページに遷移します');
+
+        dispatch(addCalculationResult(testFormData));
+        navigate('/submit');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -308,7 +353,19 @@ const FormPage: VFC = () => {
           </FormItem>
         </>
       </FormCard>
-      <input type="submit" value="Submit" />
+      <input className="submit-button" type="submit" value="計算する" />
+      {loading && (
+        <div className="isCalculation">
+          <div className="wrapper">
+            <div className="circularprogres">
+              <CircularProgress disableShrink size={60} />
+            </div>
+            <div className="text">
+              計算中です。この処理は10秒ほどかかることがあります。
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 };
