@@ -2,11 +2,12 @@
 
 import { ThinningOtherTs } from '../models/ThinningOther';
 import { ClearCutOtherTs } from '../models/ClearCutOther';
-
-const treeHeight = [32.8441393, -1, -0.01360109, 4];
-const treeVolume = [1, 2, 3, 4];
-const dbh = [1, 2, 3];
-const highStandShape = [1, 2, 3];
+import StandDensityData from './StandDensityData.json';
+//  [32.8441393, -1, -0.01360109, 4];
+const treeHeight = [32.84414, 0.0136, 0, 0.92438];
+const treeVolume = StandDensityData.tohokuSugi.SDMD.V;
+const dbh = StandDensityData.tohokuSugi.SDMD.DBH;
+const highStandShape = StandDensityData.tohokuSugi.SDMD.HF;
 const management = {
   minimumDensity: 500,
   maximumDensity: 5000,
