@@ -2,6 +2,8 @@ import TeX from '@matejmazur/react-katex';
 import { FieldType } from '../models/FieldType';
 import 'katex/dist/katex.min.css';
 
+const checkIsfilled: (state: string) => boolean = (state) => state.length <= 0;
+
 const thinningOther: FieldType[] = [
   {
     id: 'thinningYieldRate',
@@ -50,6 +52,13 @@ const management: FieldType[] = [
     title: '最小の植林密度',
     description: 'この値よりも小さい植林密度にはなりません',
     unit: '本/ha',
+    validators: [
+      {
+        id: 'email-required',
+        isValidFun: checkIsfilled,
+        alert: 'Email is empty',
+      },
+    ],
   },
   {
     id: 'maximumDensity',

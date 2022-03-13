@@ -3,4 +3,9 @@ export interface FieldType {
   title: string;
   description: string;
   unit?: string;
+  validators?: {
+    id: string;
+    isValidFun: (state: string) => boolean;
+    alert: string;
+  }[];
 }
