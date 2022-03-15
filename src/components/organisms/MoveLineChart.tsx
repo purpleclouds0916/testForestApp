@@ -3,11 +3,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/no-this-in-sfc */
 
-import { useEffect, VFC } from 'react';
+import React, { useEffect, VFC } from 'react';
 import * as d3 from 'd3';
 
 import './LineChart.css';
-import { UseInputValues } from '../../models/UseInputValues';
+import { TreePriceInput } from '../../models/TreePriceInput';
 
 interface IBasicLineChartProps {
   top: number;
@@ -18,9 +18,11 @@ interface IBasicLineChartProps {
   idName: string;
   cutMethod: 'thinning' | 'clearCut';
   data: number[][];
+  treePriceInputValues: TreePriceInput;
+  setTreePriceInputValue: React.Dispatch<React.SetStateAction<TreePriceInput>>;
 }
 
-const MoveLineChart: VFC<IBasicLineChartProps & UseInputValues> = (props) => {
+const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
   const {
     top,
     bottom,
@@ -28,8 +30,8 @@ const MoveLineChart: VFC<IBasicLineChartProps & UseInputValues> = (props) => {
     right,
     className,
     idName,
-    inputValues,
-    setInputValue,
+    treePriceInputValues,
+    setTreePriceInputValue,
     data,
     cutMethod,
   } = props;
@@ -184,12 +186,12 @@ const MoveLineChart: VFC<IBasicLineChartProps & UseInputValues> = (props) => {
 
       const id = Number(this.id);
 
-      setInputValue({
-        ...inputValues,
-        [`${cutMethod}Price`]: data.map((price, index) =>
+      setTreePriceInputValue({
+        ...treePriceInputValues,
+        [`price`]: data.map((price, index) =>
           index === id ? Math.round(d[1] / 100) * 100 : price[1],
         ),
-        [`${cutMethod}Diamter`]: data.map((diamter, index) =>
+        [`diamter`]: data.map((diamter, index) =>
           index === id ? Math.round(d[0]) : diamter[0],
         ),
       });
@@ -241,12 +243,11 @@ const MoveLineChart: VFC<IBasicLineChartProps & UseInputValues> = (props) => {
     left,
     right,
     top,
-    setInputValue,
-    inputValues,
     cutMethod,
+    setTreePriceInputValue,
+    treePriceInputValues,
   ]);
 
   return <div className="line-chart" id={idName} />;
-};
-
+});
 export default MoveLineChart;

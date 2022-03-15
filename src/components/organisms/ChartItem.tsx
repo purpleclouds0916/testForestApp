@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import React, { VFC } from 'react';
 import './FormCard.css';
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   axisY: string;
 };
 
-const ChartItem: VFC<Props> = (props) => {
+const ChartItem: VFC<Props> = React.memo((props) => {
   const { title, children, axisX, axisY } = props;
 
   return (
@@ -19,6 +19,6 @@ const ChartItem: VFC<Props> = (props) => {
       <div className="chart-axis-x-title">{axisX}</div>
     </div>
   );
-};
+});
 
 export default ChartItem;

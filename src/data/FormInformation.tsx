@@ -6,19 +6,19 @@ const checkIsfilled: (state: string) => boolean = (state) => state.length <= 0;
 
 const thinningOther: FieldType[] = [
   {
-    id: 'thinningYieldRate',
+    id: 'yieldRate',
     title: '間伐材の歩留まり',
     description: '間伐材のうち、市場に出せる割合です',
     unit: '%',
   },
   {
-    id: 'thinningCost',
+    id: 'cost',
     title: '間伐のコスト',
     description: '素材生産費と運材費の合計です',
     unit: '本/ha',
   },
   {
-    id: 'thinningStumpHeight',
+    id: 'stumpHeight',
     title: '間伐時の伐採高',
     description: '林分で木を切る時の高さのことです',
     unit: 'm',
@@ -27,19 +27,19 @@ const thinningOther: FieldType[] = [
 
 const clearCutOther: FieldType[] = [
   {
-    id: 'clearCutYieldRate',
+    id: 'yieldRate',
     title: '皆伐材の歩留まり',
     description: '皆伐材のうち、市場に出せる割合です',
     unit: '%',
   },
   {
-    id: 'clearCutCost',
+    id: 'cost',
     title: '皆伐のコスト',
     description: '素材生産費と運材費の合計です',
     unit: '本/ha',
   },
   {
-    id: 'clearCutStumpHeight',
+    id: 'stumpHeight',
     title: '皆伐時の伐採高',
     description: '林分で木を切る時の高さのことです',
     unit: 'm',

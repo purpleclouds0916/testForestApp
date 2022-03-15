@@ -1,10 +1,11 @@
 import TeX from '@matejmazur/react-katex';
 import { VFC } from 'react';
-import { InputValuesTs } from '../../models/InputValues';
+
 import 'katex/dist/katex.min.css';
 import './SelectFormula.css';
+import { TreeGrowthInput } from '../../models/TreeGrowthInput';
 
-const SelectFormula: VFC<{ inputValues: InputValuesTs }> = (props) => {
+const SelectFormula: VFC<{ inputValues: TreeGrowthInput }> = (props) => {
   const { inputValues } = props;
 
   return (

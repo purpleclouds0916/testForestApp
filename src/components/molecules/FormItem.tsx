@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import React, { VFC } from 'react';
 
 type Props = {
   children: JSX.Element;
@@ -6,7 +6,7 @@ type Props = {
   description?: string | JSX.Element;
 };
 
-const FormItem: VFC<Props> = (props) => {
+const FormItem: VFC<Props> = React.memo((props) => {
   const { children, title, description } = props;
 
   return (
@@ -18,6 +18,6 @@ const FormItem: VFC<Props> = (props) => {
       {children}
     </>
   );
-};
+});
 
 export default FormItem;

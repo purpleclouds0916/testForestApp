@@ -1,8 +1,15 @@
 import { TextField } from '@mui/material';
 import React, { VFC } from 'react';
-import { NormalFieldProps } from '../../models/NomalFieldProps';
+import { TreeGrowthInput } from '../../models/TreeGrowthInput';
 
-const FormNomal: VFC<NormalFieldProps> = (props) => {
+interface Props {
+  inputValues: TreeGrowthInput;
+  setInputValue: React.Dispatch<React.SetStateAction<TreeGrowthInput>>;
+  className?: string;
+  category: 'nrf';
+}
+
+const FormNomal: VFC<Props> = React.memo((props) => {
   const { inputValues, setInputValue, category, className } = props;
 
   return (
@@ -21,6 +28,6 @@ const FormNomal: VFC<NormalFieldProps> = (props) => {
       />
     </div>
   );
-};
+});
 
 export default FormNomal;

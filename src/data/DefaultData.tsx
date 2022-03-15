@@ -9,11 +9,13 @@ const treeDiamter: Array<number | string> = [
 ];
 
 const defaultInputValues = {
-  treeHeight: [32.84414, 0.0136, 0, 0.92438],
-  treeVolume: StandDensityData.tohokuSugi.SDMD.V,
-  highStandShape: StandDensityData.tohokuSugi.SDMD.HF,
-  dbh: StandDensityData.tohokuSugi.SDMD.DBH,
-  nrf: StandDensityData.tohokuSugi.SDMD.NRf,
+  treeGrowth: {
+    treeHeight: [32.84414, 0.0136, 0, 0.92438],
+    treeVolume: StandDensityData.tohokuSugi.SDMD.V,
+    highStandShape: StandDensityData.tohokuSugi.SDMD.HF,
+    dbh: StandDensityData.tohokuSugi.SDMD.DBH,
+    nrf: StandDensityData.tohokuSugi.SDMD.NRf,
+  },
   management: {
     minimumDensity: 500,
     maximumDensity: 5000,
@@ -28,20 +30,28 @@ const defaultInputValues = {
     thinningInterval: 5,
     maximumNumberOfThinning: 10,
   },
-  thinningOther: {
-    thinningYieldRate: 0.58,
-    thinningCost: 10947,
-    thinningStumpHeight: 0.5,
+  thinning: {
+    thinningOther: {
+      yieldRate: 0.58,
+      cost: 10947,
+      stumpHeight: 0.5,
+    },
+    sell: {
+      price: treePrice,
+      diamter: treeDiamter,
+    },
   },
-  thinningPrice: treePrice,
-  thinningDiamter: treeDiamter,
-  clearCutOther: {
-    clearCutYieldRate: 0.58,
-    clearCutCost: 6869,
-    clearCutStumpHeight: 0.5,
+  clearCut: {
+    clearCutOther: {
+      yieldRate: 0.58,
+      cost: 6869,
+      stumpHeight: 0.5,
+    },
+    sell: {
+      price: treePrice,
+      diamter: treeDiamter,
+    },
   },
-  clearCutPrice: treePrice,
-  clearCutDiamter: treeDiamter,
 };
 
 export default defaultInputValues;

@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import React, { VFC } from 'react';
 import './Card.css';
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   children: JSX.Element;
 };
 
-const Card: VFC<Props> = (props) => {
+const Card: VFC<Props> = React.memo((props) => {
   const { title, children } = props;
 
   return (
@@ -15,6 +15,6 @@ const Card: VFC<Props> = (props) => {
       {children}
     </div>
   );
-};
+});
 
 export default Card;

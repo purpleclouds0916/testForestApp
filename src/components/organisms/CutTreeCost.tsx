@@ -1,3 +1,4 @@
+/* eslint-disable  */
 import { VFC } from 'react';
 import { TextField } from '@mui/material';
 import FormArray from '../molecules/FormArray';
@@ -6,26 +7,37 @@ import FormObject from '../molecules/FormObject';
 import FormItem from '../molecules/FormItem';
 import formInformation from '../../data/FormInformation';
 
-import { UseInputValues } from '../../models/UseInputValues';
 import ChartItem from './ChartItem';
 import MoveLineChart from './MoveLineChart';
+import { CutOtherInput } from '../../models/CutOtherInput';
+import { TreePriceInput } from '../../models/TreePriceInput';
 
 interface Props {
   cutMethod: 'thinning' | 'clearCut';
+  otherInputValues: CutOtherInput;
+  setOtherInputValue: React.Dispatch<React.SetStateAction<CutOtherInput>>;
+  treePriceInputValues: TreePriceInput;
+  setTreePriceInputValue: React.Dispatch<React.SetStateAction<TreePriceInput>>;
 }
 
-const CutTreeCost: VFC<Props & UseInputValues> = (props) => {
-  const { cutMethod, inputValues, setInputValue } = props;
+const CutTreeCost: VFC<Props> = (props) => {
+  const {
+    cutMethod,
+    otherInputValues,
+    setOtherInputValue,
+    treePriceInputValues,
+    setTreePriceInputValue,
+  } = props;
 
   const jsCutMethod = cutMethod === 'thinning' ? '間伐' : '皆伐';
 
   const chartData: number[][] = [];
 
   // eslint-disable-next-line array-callback-return
-  inputValues.thinningPrice.map((_, index) => {
+  treePriceInputValues.price.map((_, index) => {
     chartData[index] = [
-      Number(inputValues[`${cutMethod}Diamter`][index]),
-      Number(inputValues[`${cutMethod}Price`][index]),
+      Number(treePriceInputValues.diamter[index]),
+      Number(treePriceInputValues.price[index]),
     ];
   });
 
@@ -34,9 +46,8 @@ const CutTreeCost: VFC<Props & UseInputValues> = (props) => {
       <>
         <FormObject
           formInformation={formInformation[`${cutMethod}Other`]}
-          inputValues={inputValues}
-          setInputValue={setInputValue}
-          category={`${cutMethod}Other`}
+          inputValues={otherInputValues}
+          setInputValue={setOtherInputValue}
           className="cut-other-field-items"
         />
         <FormItem
@@ -45,9 +56,9 @@ const CutTreeCost: VFC<Props & UseInputValues> = (props) => {
         >
           <>
             <FormArray
-              inputValues={inputValues}
-              setInputValue={setInputValue}
-              category={`${cutMethod}Price`}
+              inputValues={treePriceInputValues}
+              setInputValue={setTreePriceInputValue}
+              category="price"
               className="price-field-items"
             >
               <TextField
@@ -57,9 +68,9 @@ const CutTreeCost: VFC<Props & UseInputValues> = (props) => {
               />
             </FormArray>
             <FormArray
-              inputValues={inputValues}
-              setInputValue={setInputValue}
-              category={`${cutMethod}Diamter`}
+              inputValues={treePriceInputValues}
+              setInputValue={setTreePriceInputValue}
+              category="diamter"
               className="diamter-field-items"
             >
               <TextField
@@ -76,10 +87,12 @@ const CutTreeCost: VFC<Props & UseInputValues> = (props) => {
                 right={10}
                 className={`${cutMethod}-chart`}
                 idName={`${cutMethod}-chart`}
-                inputValues={inputValues}
-                setInputValue={setInputValue}
+                // inputValues={treePriceInputValues}
+                // setInputValue={setTreePriceInputValue}
                 data={chartData}
                 cutMethod={`${cutMethod}`}
+                treePriceInputValues={treePriceInputValues}
+                setTreePriceInputValue={setTreePriceInputValue}
               />
             </ChartItem>
           </>

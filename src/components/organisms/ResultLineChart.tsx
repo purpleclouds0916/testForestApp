@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/no-this-in-sfc */
 
-import { useEffect, VFC } from 'react';
+import React, { useEffect, VFC } from 'react';
 import * as d3 from 'd3';
 
 import './LineChart.css';
@@ -21,7 +21,7 @@ interface IBasicLineChartProps {
   displayUnit?: number;
 }
 
-const ResultLineChart: VFC<IBasicLineChartProps> = (props) => {
+const ResultLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
   const {
     top,
     bottom,
@@ -179,6 +179,5 @@ const ResultLineChart: VFC<IBasicLineChartProps> = (props) => {
   ]);
 
   return <div className="line-chart" id={idName} />;
-};
-
+});
 export default ResultLineChart;

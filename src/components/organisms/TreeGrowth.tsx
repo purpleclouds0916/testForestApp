@@ -1,4 +1,5 @@
-import { VFC } from 'react';
+import React, { VFC } from 'react';
+import { TreeGrowthInput } from '../../models/TreeGrowthInput';
 import FormNormal from '../Atoms/FormNormal';
 import FormArray from '../molecules/FormArray';
 import FormItem from '../molecules/FormItem';
@@ -6,10 +7,14 @@ import SelectFormula from '../molecules/SelectFormula';
 import TreeHeightGrowthDescription from '../molecules/TreeHeightGrowthDescription';
 import MultipleSelectPlaceholder from '../molecules/Select';
 import formInformation from '../../data/FormInformation';
-import { UseInputValues } from '../../models/UseInputValues';
 import Card from './Card';
 
-const TreeGrowth: VFC<UseInputValues> = (props) => {
+interface Props {
+  inputValues: TreeGrowthInput;
+  setInputValue: React.Dispatch<React.SetStateAction<TreeGrowthInput>>;
+}
+
+const TreeGrowth: VFC<Props> = React.memo((props) => {
   const { inputValues, setInputValue } = props;
 
   return (
@@ -64,6 +69,6 @@ const TreeGrowth: VFC<UseInputValues> = (props) => {
       </>
     </Card>
   );
-};
+});
 
 export default TreeGrowth;

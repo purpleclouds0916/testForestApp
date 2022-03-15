@@ -1,10 +1,15 @@
-import { VFC } from 'react';
+import React, { VFC } from 'react';
+import { ManagementInput } from '../../models/ManagementInput';
 import formInformation from '../../data/FormInformation';
-import { UseInputValues } from '../../models/UseInputValues';
 import FormObject from '../molecules/FormObject';
 import Card from './Card';
 
-const TreeManagement: VFC<UseInputValues> = (props) => {
+interface Props {
+  inputValues: ManagementInput;
+  setInputValue: React.Dispatch<React.SetStateAction<ManagementInput>>;
+}
+
+const TreeManagement: VFC<Props> = React.memo((props) => {
   const { inputValues, setInputValue } = props;
 
   return (
@@ -13,11 +18,10 @@ const TreeManagement: VFC<UseInputValues> = (props) => {
         formInformation={formInformation.management}
         inputValues={inputValues}
         setInputValue={setInputValue}
-        category="management"
         className="management-field-items"
       />
     </Card>
   );
-};
+});
 
 export default TreeManagement;
