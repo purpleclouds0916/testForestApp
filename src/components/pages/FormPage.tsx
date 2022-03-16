@@ -97,7 +97,7 @@ const FormPage: VFC = () => {
               Number(data.treeGrowth.treeHeight[1].value) *
                 Number(data.treeGrowth.treeHeight[2].value),
             ),
-            -data.treeGrowth.treeHeight[1].value,
+            data.treeGrowth.treeHeight[2].value,
             data.treeGrowth.treeHeight[3].value,
           ],
           V: treeVolume,
