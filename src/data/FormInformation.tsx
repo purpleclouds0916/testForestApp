@@ -37,22 +37,22 @@ const defaultValue = {
   treeGrowth: {
     treeHeight: [
       {
-        value: 72.7354082,
+        value: 32.84414,
       },
       {
-        value: -1,
+        value: 0.0136,
       },
       {
-        value: -0.00446473,
+        value: 0,
       },
       {
-        value: 0.67571761,
+        value: 0.92438,
       },
     ],
     treeVolume,
     highStandShape,
     dbh,
-    nrf: 2100,
+    nrf: StandDensityData.tohokuSugi.SDMD.NRf,
   },
   thinning: {
     price,

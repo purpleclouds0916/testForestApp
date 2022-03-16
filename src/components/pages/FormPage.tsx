@@ -97,7 +97,7 @@ const FormPage: VFC = () => {
               Number(data.treeGrowth.treeHeight[1].value) *
                 Number(data.treeGrowth.treeHeight[2].value),
             ),
-            data.treeGrowth.treeHeight[2].value,
+            - data.treeGrowth.treeHeight[1].value,
             data.treeGrowth.treeHeight[3].value,
           ],
           V: treeVolume,
@@ -154,6 +154,7 @@ const FormPage: VFC = () => {
         },
       },
     };
+    console.log(JSON.stringify(submitApiData));
     // ※高知大学のWi-Fiを利用しないと必ずエラーになる(セキュリティの関係上)
     void axios
       .post<CalculationResultType>(
