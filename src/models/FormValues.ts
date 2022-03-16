@@ -32,8 +32,4 @@ export interface FormValues {
   };
   thinning: Cut;
   clearCut: Cut;
-
-  // clearCutOther: ClearCutOtherTs;
-  // clearCutPrice: Array<number | string>;
-  // clearCutDiamter: Array<number | string>;
 }
