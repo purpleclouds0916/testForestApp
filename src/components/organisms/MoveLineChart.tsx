@@ -3,11 +3,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/no-this-in-sfc */
 
-import React, { useEffect, VFC } from 'react';
+import React, { useEffect, useState, VFC } from 'react';
 import * as d3 from 'd3';
 
 import './LineChart.css';
-import { TreePriceInput } from '../../models/TreePriceInput';
+
+import { UseFormSetValue } from 'react-hook-form';
+import { FormValues } from '../../models/FormValues';
 
 interface IBasicLineChartProps {
   top: number;
@@ -18,8 +20,7 @@ interface IBasicLineChartProps {
   idName: string;
   cutMethod: 'thinning' | 'clearCut';
   data: number[][];
-  treePriceInputValues: TreePriceInput;
-  setTreePriceInputValue: React.Dispatch<React.SetStateAction<TreePriceInput>>;
+  setValue: UseFormSetValue<FormValues>;
 }
 
 const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
@@ -30,11 +31,14 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
     right,
     className,
     idName,
-    treePriceInputValues,
-    setTreePriceInputValue,
+    // treePriceInputValues,
+    // setTreePriceInputValue,
     data,
     cutMethod,
+    setValue,
   } = props;
+
+  const [chartData, setChartData] = useState(data);
 
   useEffect(() => {
     d3.select(`#${idName}`).selectAll('*').remove();
@@ -57,13 +61,13 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
       .scaleLinear()
       .domain([
         0,
-        d3.max(data, () =>
-          Math.max(...data.map((dt) => (dt as unknown as number[])[0]), 0),
+        d3.max(chartData, () =>
+          Math.max(...chartData.map((dt) => (dt as unknown as number[])[0]), 0),
         ),
       ] as number[])
       .range([0, width]);
 
-    const maxY = Number(d3.max(data, (d: number[]) => d[1]));
+    const maxY = Number(d3.max(chartData, (d: number[]) => d[1]));
 
     const y = d3
       .scaleLinear()
@@ -82,7 +86,7 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
 
     focus
       .append('path')
-      .datum(data)
+      .datum(chartData)
       .attr('fill', 'none')
       .attr('stroke', 'steelblue')
       .attr('stroke-linejoin', 'round')
@@ -111,7 +115,7 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
 
     focus
       .selectAll('circle')
-      .data(data)
+      .data(chartData)
       .enter()
       .append('circle')
       .attr('r', 5.0)
@@ -151,16 +155,15 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
 
       // dragの範囲を要素ごとに制限  xは0よりも大きく、次の要素よりも小さい値で前の要素よりも大きい値
       if (id === 0) {
-        d[0] = Math.max(0, Math.min(x.invert(e.x), data[id + 1][0]));
-      } else if (id === data.length - 1) {
-        d[0] = Math.max(data[id - 1][0], x.invert(e.x));
+        d[0] = Math.max(0, Math.min(x.invert(e.x), chartData[id + 1][0]));
+      } else if (id === chartData.length - 1) {
+        d[0] = Math.max(chartData[id - 1][0], x.invert(e.x));
       } else {
         d[0] = Math.max(
-          data[id - 1][0],
-          Math.min(x.invert(e.x), data[id + 1][0]),
+          chartData[id - 1][0],
+          Math.min(x.invert(e.x), chartData[id + 1][0]),
         );
       }
-
       d[1] = Math.max(0, Math.min(y.invert(e.y), 500000));
       d3.select(this).attr('cx', x(d[0])).attr('cy', y(d[1]));
 
@@ -186,15 +189,15 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
 
       const id = Number(this.id);
 
-      setTreePriceInputValue({
-        ...treePriceInputValues,
-        [`price`]: data.map((price, index) =>
-          index === id ? Math.round(d[1] / 100) * 100 : price[1],
-        ),
-        [`diamter`]: data.map((diamter, index) =>
-          index === id ? Math.round(d[0]) : diamter[0],
-        ),
-      });
+      setValue(`${cutMethod}.price.${id}.value`, Math.round(d[1] / 100) * 100);
+      setValue(`${cutMethod}.diamter.${id}.value`, Math.round(d[0]));
+      const newChartData: number[][] = [];
+      chartData.map((value, index) =>
+        index === id
+          ? newChartData.push([Math.round(d[0]), Math.round(d[1] / 100) * 100])
+          : newChartData.push(value),
+      );
+      setChartData(newChartData);
     }
 
     const drag = d3
@@ -238,14 +241,13 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
   }, [
     bottom,
     className,
-    data,
+    chartData,
     idName,
     left,
     right,
     top,
     cutMethod,
-    setTreePriceInputValue,
-    treePriceInputValues,
+    setValue,
   ]);
 
   return <div className="line-chart" id={idName} />;

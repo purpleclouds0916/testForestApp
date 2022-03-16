@@ -1,6 +1,5 @@
 export interface ThinningOtherTs {
-  thinningYieldRate: string | number;
-  thinningCost: string | number;
-  thinningStumpHeight: string | number;
-  [key: string]: number | string;
+  yieldRate: string | number;
+  cost: string | number;
+  stumpHeight: string | number;
 }

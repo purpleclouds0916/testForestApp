@@ -1,167 +1,210 @@
-/* eslint-disable  */
+/* eslint-disable array-callback-return */
 import { useState, VFC } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { TreePriceInput } from '../../models/TreePriceInput';
 import IsCalculation from '../Atoms/IsCalculations';
 import TreeManagement from '../organisms/TreeManagement';
 import TreeGrowth from '../organisms/TreeGrowth';
 import CutTreeCost from '../organisms/CutTreeCost';
 import { CalculationResultType } from '../../models/CalculationResult';
-import { InputValuesTs } from '../../models/InputValues';
-import testFormData from '../../data/testFormData.json';
 import { AppDispatch } from '../../redux/store';
 import { addCalculationResult } from '../../redux/CalculationResultSlice';
 import './FormPage.css';
-import defaultInputValues from '../../data/DefaultData';
-import { TreeGrowthInput } from '../../models/TreeGrowthInput';
-import { ManagementInput } from '../../models/ManagementInput';
-import { CutOtherInput } from '../../models/CutOtherInput';
+import { FormValues } from '../../models/FormValues';
+import formInformation from '../../data/FormInformation';
+
+const schema = yup
+  .object({
+    management: yup.object({
+      minimumDensity: yup.number().required(),
+      maximumDensity: yup.number().required(),
+      minimumClearcut: yup.number().required(),
+      reforestationCost: yup.number().required(),
+      priceSaplings: yup.number().required(),
+      minimumThinning: yup.number().required(),
+      maximumThinning: yup.number().required(),
+      annualProfit: yup.number().required(),
+      ageOfStartThinning: yup.number().required(),
+      ageOfEndThinning: yup.number().required(),
+      thinningInterval: yup.number().required(),
+      maximumNumberOfThinning: yup.number().required(),
+    }),
+  })
+  .required();
 
 const FormPage: VFC = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  // const [inputValues, setInputValue] =
-  //   useState<InputValuesTs>(defaultInputValues);
-  // formのvalueの値をまとめると、レンダリングの範囲が広くなり、ページが遅くなるので分けた。
-  const [treeGrowthValues, setTreeGrowthValues] = useState<TreeGrowthInput>(
-    defaultInputValues.treeGrowth,
-  );
-  const [managementValues, setManagementValues] = useState<ManagementInput>(
-    defaultInputValues.management,
-  );
-  const [thinningOtherValues, setThinningOtherValues] = useState<CutOtherInput>(
-    defaultInputValues.thinning.thinningOther,
-  );
-  const [thinningPriceValues, setThinningPriceValues] =
-    useState<TreePriceInput>(defaultInputValues.thinning.sell);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    register,
+    setValue,
+    watch,
+  } = useForm<FormValues>({
+    mode: 'onBlur',
+    resolver: yupResolver(schema),
+    defaultValues: formInformation.defaultValue,
+  });
 
-  const [clearCutOtherValues, setClearCutOtherValues] = useState<CutOtherInput>(
-    defaultInputValues.clearCut.clearCutOther,
-  );
-  const [clearCutPriceValues, setClearCutPriceValues] =
-    useState<TreePriceInput>(defaultInputValues.clearCut.sell);
-
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     // e.preventDefault();
-    // setLoading(true);
-    // const submitApiData = {
-    //   SH: {
-    //     YieldModelType: 'S',
-    //     SAType: '2021',
-    //     SDMD: {
-    //       NRf: inputValues.nrf,
-    //       H: [
-    //         inputValues.treeHeight[0],
-    //         -Math.exp(
-    //           Number(inputValues.treeHeight[1]) *
-    //             Number(inputValues.treeHeight[2]),
-    //         ),
-    //         -inputValues.treeHeight[1],
-    //         inputValues.treeHeight[3],
-    //       ],
-    //       V: inputValues.treeVolume,
-    //       DBH: inputValues.dbh,
-    //       HF: inputValues.highStandShape,
-    //     },
-    //     Density: {
-    //       Plant: [
-    //         inputValues.management.minimumDensity,
-    //         inputValues.management.maximumDensity,
-    //       ],
-    //       MinimumAtClearcut: inputValues.management.minimumClearcut,
-    //     },
-    //     RegenerationCost: [
-    //       inputValues.management.reforestationCost,
-    //       inputValues.management.priceSaplings,
-    //     ],
-    //     ThinningPercent: [
-    //       inputValues.management.minimumThinning,
-    //       inputValues.management.maximumThinning,
-    //     ],
-    //     AnnualInterestPercent: inputValues.management.annualProfit,
-    //     HarvestingAges: [
-    //       inputValues.management.ageOfStartThinning,
-    //       inputValues.management.ageOfEndThinning,
-    //       inputValues.management.thinningInterval,
-    //     ],
-    //     MaxNumOfHarvest: inputValues.management.maximumNumberOfThinning,
-    //     NumSearch: [3, 10000],
-    //     Thinning: {
-    //       YieldRate: inputValues.thinningOther.thinningYieldRate,
-    //       Cost: inputValues.thinningOther.thinningCost,
-    //       StumpHeight: inputValues.thinningOther.thinningStumpHeight,
-    //       Diameter: inputValues.thinningDiamter,
-    //       Price: inputValues.thinningPrice,
-    //     },
-    //     Clearcut: {
-    //       YieldRate: inputValues.clearCutOther.clearCutYieldRate,
-    //       Cost: inputValues.clearCutOther.clearCutCost,
-    //       StumpHeight: inputValues.clearCutOther.clearCutStumpHeight,
-    //       Diameter: inputValues.clearCutDiamter,
-    //       Price: inputValues.clearCutPrice,
-    //     },
-    //     SA: {
-    //       Comment: 'Type L 1000 yen/ha degradation for SEV',
-    //       NumRepeat: 40,
-    //       NumTempLevel: 100,
-    //       MetaSearchPercentile: 0.75,
-    //       NumTotalLoopN: [1, 8],
-    //       NumTotalLoopPow: [3.55, 6.75],
-    //       StartTemp: [0, -0.6, 0.6, 5],
-    //       DiffTemp: [0, -3.8, 1.4, 5],
-    //       DistScale: [0, -1.2, 0.6, 5],
-    //     },
-    //   },
-    // };
-    // // ※高知大学のWi-Fiを利用しないと必ずエラーになる(セキュリティの関係上)
-    // void axios
-    //   .post<CalculationResultType>('/calculation/', submitApiData)
-    //   .then((res) => {
-    //     dispatch(
-    //       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    //       addCalculationResult(JSON.parse(res.data as unknown as string)),
-    //     );
-    //     navigate('/submit');
-    //   })
-    //   .catch(() => {
-    //     // 以下はテストように開発
-    //     // eslint-disable-next-line no-alert
-    //     alert('計算に失敗しました。これより、デモの計算結果ページに遷移します');
-    //     dispatch(addCalculationResult(testFormData));
-    //     navigate('/submit');
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
+    setLoading(true);
+
+    const clearCutPrice: number[] = [];
+    const clearCutDiamter: number[] = [];
+    const thinningPrice: number[] = [];
+    const thinningDiamter: number[] = [];
+    const treeVolume: number[] = [];
+    const dbh: number[] = [];
+    const highStandShape: number[] = [];
+
+    data.clearCut.diamter.map((_value, index) => {
+      clearCutPrice.push(data.clearCut.price[index].value);
+      clearCutDiamter.push(data.clearCut.diamter[index].value);
+      thinningPrice.push(data.thinning.price[index].value);
+      thinningDiamter.push(data.thinning.diamter[index].value);
+    });
+
+    data.treeGrowth.treeVolume.map((value) => {
+      treeVolume.push(value.value);
+    });
+
+    data.treeGrowth.dbh.map((value) => {
+      dbh.push(value.value);
+    });
+
+    data.treeGrowth.highStandShape.map((value) => {
+      highStandShape.push(value.value);
+    });
+
+    const submitApiData = {
+      SH: {
+        YieldModelType: 'S',
+        SAType: '2021',
+        SDMD: {
+          NRf: data.treeGrowth.nrf,
+          H: [
+            data.treeGrowth.treeHeight[0].value,
+            -Math.exp(
+              Number(data.treeGrowth.treeHeight[1].value) *
+                Number(data.treeGrowth.treeHeight[2].value),
+            ),
+            -data.treeGrowth.treeHeight[1].value,
+            data.treeGrowth.treeHeight[3].value,
+          ],
+          V: treeVolume,
+          DBH: dbh,
+          HF: highStandShape,
+        },
+        Density: {
+          Plant: [
+            data.management.minimumDensity,
+            data.management.maximumDensity,
+          ],
+          MinimumAtClearcut: data.management.minimumClearcut,
+        },
+        RegenerationCost: [
+          data.management.reforestationCost,
+          data.management.priceSaplings,
+        ],
+        ThinningPercent: [
+          data.management.minimumThinning,
+          data.management.maximumThinning,
+        ],
+        AnnualInterestPercent: data.management.annualProfit,
+        HarvestingAges: [
+          data.management.ageOfStartThinning,
+          data.management.ageOfEndThinning,
+          data.management.thinningInterval,
+        ],
+        MaxNumOfHarvest: data.management.maximumNumberOfThinning,
+        NumSearch: [3, 10000],
+        Thinning: {
+          YieldRate: data.thinning.other.yieldRate,
+          Cost: data.thinning.other.cost,
+          StumpHeight: data.thinning.other.stumpHeight,
+          Diameter: thinningDiamter,
+          Price: thinningPrice,
+        },
+        Clearcut: {
+          YieldRate: data.clearCut.other.yieldRate,
+          Cost: data.clearCut.other.cost,
+          StumpHeight: data.clearCut.other.stumpHeight,
+          Diameter: clearCutDiamter,
+          Price: clearCutPrice,
+        },
+        SA: {
+          Comment: 'Type L 1000 yen/ha degradation for SEV',
+          NumRepeat: 40,
+          NumTempLevel: 100,
+          MetaSearchPercentile: 0.75,
+          NumTotalLoopN: [1, 8],
+          NumTotalLoopPow: [3.55, 6.75],
+          StartTemp: [0, -0.6, 0.6, 5],
+          DiffTemp: [0, -3.8, 1.4, 5],
+          DistScale: [0, -1.2, 0.6, 5],
+        },
+      },
+    };
+    // ※高知大学のWi-Fiを利用しないと必ずエラーになる(セキュリティの関係上)
+    void axios
+      .post<CalculationResultType>(
+        'http://133.97.178.97:21312/calculation/',
+        submitApiData,
+      )
+      .then((res) => {
+        dispatch(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          addCalculationResult(JSON.parse(res.data as unknown as string)),
+        );
+        navigate('/submit');
+      })
+      .catch(() => {
+        // 以下はテストように開発
+        // eslint-disable-next-line no-alert
+        alert('計算に失敗しました。これより、デモの計算結果ページに遷移します');
+        // dispatch(addCalculationResult(testFormData));
+        // navigate('/submit');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <TreeGrowth
-        inputValues={treeGrowthValues}
-        setInputValue={setTreeGrowthValues}
+        control={control}
+        errors={errors}
+        register={register}
+        setValue={setValue}
+        watch={watch}
       />
-      <TreeManagement
-        inputValues={managementValues}
-        setInputValue={setManagementValues}
-      />
+      <TreeManagement control={control} errors={errors} />
+
       <CutTreeCost
-        otherInputValues={thinningOtherValues}
-        setOtherInputValue={setThinningOtherValues}
         cutMethod="thinning"
-        treePriceInputValues={thinningPriceValues}
-        setTreePriceInputValue={setThinningPriceValues}
+        control={control}
+        errors={errors}
+        register={register}
+        setValue={setValue}
+        watch={watch}
       />
 
       <CutTreeCost
-        otherInputValues={clearCutOtherValues}
-        setOtherInputValue={setClearCutOtherValues}
-        treePriceInputValues={clearCutPriceValues}
-        setTreePriceInputValue={setClearCutPriceValues}
+        control={control}
+        errors={errors}
+        register={register}
+        setValue={setValue}
+        watch={watch}
         cutMethod="clearCut"
       />
       <input className="submit-button" type="submit" value="計算する" />

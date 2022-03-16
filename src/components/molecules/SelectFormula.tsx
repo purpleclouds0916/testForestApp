@@ -1,67 +1,78 @@
+/* eslint-disable */
 import TeX from '@matejmazur/react-katex';
 import { VFC } from 'react';
 
 import 'katex/dist/katex.min.css';
 import './SelectFormula.css';
-import { TreeGrowthInput } from '../../models/TreeGrowthInput';
+import { UseFormWatch, Control, useWatch } from 'react-hook-form';
+import { FormValues } from '../../models/FormValues';
+// import { TreeGrowthInput } from '../../models/TreeGrowthInput';
 
-const SelectFormula: VFC<{ inputValues: TreeGrowthInput }> = (props) => {
-  const { inputValues } = props;
+interface Props {
+  watch: UseFormWatch<FormValues>;
+  control: Control<FormValues>;
+}
+
+const SelectFormula: VFC<Props> = (props) => {
+  const { watch } = props;
+
+  const treeGrowth = watch('treeGrowth');
 
   return (
     <div className="sdmd-katexs-items">
       <div className="sdmd-katex-item sdmd-katex-formula">
-        <TeX>{String.raw`V = ({${inputValues.treeVolume[0]}}H^{{${
-          inputValues.treeVolume[1]
+        <TeX>{String.raw`V = ({${treeGrowth.treeVolume[0].value}}H^{{${
+          treeGrowth.treeVolume[1].value
         }}}{${
-          inputValues.treeVolume[2] > 0
-            ? `+${inputValues.treeVolume[2]}`
-            : `${inputValues.treeVolume[2]}`
-        }}H^{{${inputValues.treeVolume[3]}}}/N)^{-1}`}</TeX>
+          treeGrowth.treeVolume[2].value > 0
+            ? `+${treeGrowth.treeVolume[2].value}`
+            : `${treeGrowth.treeVolume[2].value}`
+        }}H^{{${treeGrowth.treeVolume[3].value}}}/N)^{-1}`}</TeX>
         <br />
-        <TeX>{String.raw`HF = {${inputValues.highStandShape[0]}}{${
-          inputValues.highStandShape[1] > 0
-            ? `+${inputValues.highStandShape[1]}`
-            : `${inputValues.highStandShape[1]}`
+        <TeX>{String.raw`HF = {${treeGrowth.highStandShape[0].value}}{${
+          treeGrowth.highStandShape[1].value > 0
+            ? `+${treeGrowth.highStandShape[1].value}`
+            : `${treeGrowth.highStandShape[1].value}`
         }}H{${
-          inputValues.highStandShape[2] > 0
-            ? `+${inputValues.highStandShape[2]}`
-            : `${inputValues.highStandShape[2]}`
+          treeGrowth.highStandShape[2].value > 0
+            ? `+${treeGrowth.highStandShape[2].value}`
+            : `${treeGrowth.highStandShape[2].value}`
         }}\sqrt{N}\cdot{H/100}`}</TeX>
         <br />
         <TeX>{String.raw`G = V/HF`}</TeX>
         <br />
         <TeX>{String.raw`\overline{dg} = 200\sqrt{G/(\pi\cdot{N})}`}</TeX>
         <br />
-        <TeX>{String.raw`\overline{d} = {${inputValues.dbh[0]}}{${
-          inputValues.dbh[1] > 0
-            ? `+${inputValues.dbh[1]}`
-            : `${inputValues.dbh[1]}`
+        <TeX>{String.raw`\overline{d} = {${treeGrowth.dbh[0].value}}{${
+          treeGrowth.dbh[1].value > 0
+            ? `+${treeGrowth.dbh[1].value}`
+            : `${treeGrowth.dbh[1].value}`
         }}\overline{d}g{${
-          inputValues.dbh[2] === 0
+          treeGrowth.dbh[2].value === 0
             ? ``
             : `${
-                inputValues.dbh[2] > 0
-                  ? `+${inputValues.dbh[2]}${String.raw`\sqrt{N}\cdot{H/100}`}`
-                  : `${inputValues.dbh[2]}${String.raw`\sqrt{N}\cdot{H/100}`}`
+                treeGrowth.dbh[2].value > 0
+                  ? `+${treeGrowth.dbh[2].value}${String.raw`\sqrt{N}\cdot{H/100}`}`
+                  : `${treeGrowth.dbh[2].value}${String.raw`\sqrt{N}\cdot{H/100}`}`
               }`
         }}`}</TeX>
         <br />
         <TeX>{String.raw`\overline{R\footnotesize{y}} = V/V\tiny {Rf}`}</TeX>
         <br />
-        <TeX>{String.raw`{V\tiny{Rf}} = ({${inputValues.treeVolume[0]}}H^{${
-          inputValues.treeVolume[1]
+        <TeX>{String.raw`{V\tiny{Rf}} = ({${treeGrowth.treeVolume[0].value}}H^{${
+          treeGrowth.treeVolume[1].value
         }}{${
-          inputValues.treeVolume[2] > 0
-            ? `+${inputValues.treeVolume[2]}`
-            : `${inputValues.treeVolume[2]}`
-        }}H^{${inputValues.treeVolume[3]}}/{N\tiny{Rf}})^{-1}`}</TeX>
+          treeGrowth.treeVolume[2].value > 0
+            ? `+${treeGrowth.treeVolume[2].value}`
+            : `${treeGrowth.treeVolume[2].value}`
+        }}H^{${treeGrowth.treeVolume[3].value}}/{N\tiny{Rf}})^{-1}`}</TeX>
         <br />
-        <TeX>{String.raw`\log{N\tiny{Rf}} = {${inputValues.nrf}}{${
+        <TeX>{String.raw`\log{N\tiny{Rf}} = {${treeGrowth.nrf}}{${
           Math.round(
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            (inputValues.treeVolume[3] - inputValues.treeVolume[1]) * 100000,
+            (treeGrowth.treeVolume[3].value - treeGrowth.treeVolume[1].value) *
+              100000,
           ) / 100000
         }}\log{H}`}</TeX>
       </div>

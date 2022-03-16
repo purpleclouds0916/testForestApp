@@ -1,0 +1,18 @@
+.tree-height-field-items {
+  display: flex;
+}
+
+.tree-height-field-items .form-field-item-title {
+  margin-top: 10px;
+  margin-right: 12px;
+}
+
+.tree-height-field-items .form-field-item-input {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-right: 12px;
+}
+
+.tree-height-field-items .form-field-item-input:last-child {
+  margin-right: 0;
+}
