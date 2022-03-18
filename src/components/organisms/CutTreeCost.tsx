@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable array-callback-return */
-import React, { VFC } from 'react';
-import { InputAdornment, TextField } from '@mui/material';
+import React, { useState, VFC } from 'react';
+import { Alert, InputAdornment, TextField } from '@mui/material';
 
 import {
   Control,
   Controller,
   FieldErrors,
   useFieldArray,
+  UseFormClearErrors,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
@@ -24,13 +27,14 @@ interface Props {
   cutMethod: 'thinning' | 'clearCut';
   control: Control<FormValues>;
   errors: FieldErrors<FormValues>;
+  clearErrors: UseFormClearErrors<FormValues>;
   register: UseFormRegister<FormValues>;
   setValue: UseFormSetValue<FormValues>;
   watch: UseFormWatch<FormValues>;
 }
 
 const CutTreeCost: VFC<Props> = (props) => {
-  const { cutMethod, control, errors, setValue, watch } = props;
+  const { cutMethod, control, errors, setValue, watch, clearErrors } = props;
 
   const jsCutMethod = cutMethod === 'thinning' ? '間伐' : '皆伐';
 
@@ -43,6 +47,26 @@ const CutTreeCost: VFC<Props> = (props) => {
       Number(watchTree.price[index].value),
     ];
   });
+
+  const tableAllErrors: string[] = [];
+
+  if (errors[cutMethod]?.price !== undefined) {
+    // @ts-ignore
+    errors[cutMethod]?.price.map((value) => {
+      // @ts-ignore
+      tableAllErrors.push(value.value?.message);
+    });
+  }
+
+  if (errors[cutMethod]?.diamter !== undefined) {
+    // @ts-ignore
+    errors[cutMethod]?.diamter.map((value) => {
+      // @ts-ignore
+      tableAllErrors.push(value.value?.message);
+    });
+  }
+
+  const tableErrors = [...new Set(tableAllErrors)];
 
   const ArrayFields = formInformation[`${cutMethod}Other`].map(
     (information) => (
@@ -93,6 +117,8 @@ const CutTreeCost: VFC<Props> = (props) => {
     control,
     name: `${cutMethod}.diamter`,
   });
+  // 不要なレンダリングを減らすためのタイマー
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
   return (
     <Card title={`${jsCutMethod}の費用`}>
@@ -117,7 +143,34 @@ const CutTreeCost: VFC<Props> = (props) => {
                     control={control}
                     name={`${cutMethod}.diamter.${index}.value`}
                     render={({ field }) => (
-                      <TextField {...field} className="form-field-item-input" />
+                      <TextField
+                        {...field}
+                        error={Boolean(errors?.[cutMethod]?.diamter?.[index])}
+                        className="form-field-item-input"
+                        onChange={(e) => {
+                          setValue(
+                            `${cutMethod}.diamter.${index}.value`,
+                            e.target.value,
+                          );
+                          const { diamter } = watch(`${cutMethod}`);
+                          // @ts-ignore
+                          clearTimeout(timer);
+                          const newTimer = setTimeout(() => {
+                            if (index !== 10) {
+                              if (
+                                Number(diamter[index].value) <=
+                                Number(diamter[index + 1].value)
+                              ) {
+                                clearErrors([
+                                  `${cutMethod}.diamter.${index}`,
+                                  `${cutMethod}.diamter.${index + 1}`,
+                                ]);
+                              }
+                            }
+                          }, 500);
+                          setTimer(newTimer);
+                        }}
+                      />
                     )}
                   />
                 </React.Fragment>
@@ -135,12 +188,25 @@ const CutTreeCost: VFC<Props> = (props) => {
                     control={control}
                     name={`${cutMethod}.price.${index}.value`}
                     render={({ field }) => (
-                      <TextField {...field} className="form-field-item-input" />
+                      <TextField
+                        {...field}
+                        error={Boolean(errors?.[cutMethod]?.price?.[index])}
+                        className="form-field-item-input"
+                      />
                     )}
                   />
                 </React.Fragment>
               ))}
             </div>
+            {tableErrors.length >= 1 && (
+              <Alert severity="error" className="alert">
+                <div>
+                  {tableErrors.map((tableError) => (
+                    <div key={tableError}>{tableError}</div>
+                  ))}
+                </div>
+              </Alert>
+            )}
             <ChartItem axisX="胸高直径(cm)" axisY="金額(円)">
               <MoveLineChart
                 top={10}
@@ -149,31 +215,12 @@ const CutTreeCost: VFC<Props> = (props) => {
                 right={10}
                 className={`${cutMethod}-chart`}
                 idName={`${cutMethod}-chart`}
-                // inputValues={treePriceInputValues}
-                // setInputValue={setTreePriceInputValue}
                 data={chartData}
                 cutMethod={`${cutMethod}`}
                 setValue={setValue}
-                // treePriceInputValues={treePriceInputValues}
-                // setTreePriceInputValue={setTreePriceInputValue}
+                clearErrors={clearErrors}
               />
             </ChartItem>
-            {/* <ChartItem axisX="胸高直径(cm)" axisY="金額(円)">
-              <MoveLineChart
-                top={10}
-                bottom={30}
-                left={65}
-                right={10}
-                className={`${cutMethod}-chart`}
-                idName={`${cutMethod}-chart`}
-                // inputValues={treePriceInputValues}
-                // setInputValue={setTreePriceInputValue}
-                data={chartData}
-                cutMethod={`${cutMethod}`}
-                treePriceInputValues={treePriceInputValues}
-                setTreePriceInputValue={setTreePriceInputValue}
-              />
-            </ChartItem> */}
           </>
         </FormItem>
       </>

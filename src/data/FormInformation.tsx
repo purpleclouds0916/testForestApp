@@ -54,6 +54,10 @@ const defaultValue = {
     dbh,
     nrf: StandDensityData.tohokuSugi.SDMD.NRf,
   },
+  management: {
+    minimumDensity: 500,
+    maximumDensity: 2000,
+  },
   thinning: {
     price,
     diamter,

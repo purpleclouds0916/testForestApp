@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { VFC } from 'react';
 
@@ -30,7 +31,7 @@ interface Props {
 }
 
 const TreeGrowth: VFC<Props> = React.memo((props) => {
-  const { control, register, setValue, watch } = props;
+  const { control, register, setValue, watch, errors } = props;
 
   const { fields: treeHeightFields } = useFieldArray({
     control,
@@ -73,7 +74,17 @@ const TreeGrowth: VFC<Props> = React.memo((props) => {
                   control={control}
                   name={`treeGrowth.treeHeight.${index}.value`}
                   render={({ field }) => (
-                    <TextField {...field} className="form-field-item-input" />
+                    <TextField
+                      {...field}
+                      className="form-field-item-input"
+                      error={Boolean(
+                        errors?.treeGrowth?.treeHeight?.[index],
+                      )}
+                      helperText={
+                        errors?.treeGrowth?.treeHeight?.[index] &&
+                        errors?.treeGrowth?.treeHeight?.[index]?.value?.message
+                      }
+                    />
                   )}
                 />
               </React.Fragment>

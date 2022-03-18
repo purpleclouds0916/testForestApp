@@ -1,9 +1,19 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable no-shadow */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/jsx-no-useless-fragment */
 
-import React, { VFC } from 'react';
+import React, { useEffect, useState, VFC } from 'react';
 import { TextField, InputAdornment } from '@mui/material';
-import { Control, Controller, FieldErrors } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  UseFormClearErrors,
+  UseFormSetValue,
+  UseFormWatch,
+} from 'react-hook-form';
 import formInformation from '../../data/FormInformation';
 // import FormObject from '../molecules/FormObject';
 import Card from './Card';
@@ -14,26 +24,73 @@ import { FormValues } from '../../models/FormValues';
 interface Props {
   control: Control<FormValues>;
   errors: FieldErrors<FormValues>;
+  watch: UseFormWatch<FormValues>;
+  clearErrors: UseFormClearErrors<FormValues>;
+  setValue: UseFormSetValue<FormValues>;
 }
 
 const TreeManagement: VFC<Props> = React.memo((props) => {
+  const { control, errors, watch, clearErrors, setValue } = props;
+  // 不要なレンダリングを減らすためのタイマー
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
+  // yupでwhenを使った時に、変更中のテキストの値を見ることができないため、依存関係のエラー解除を実装できなかった
+  // なので無理矢理onChangeで実装している
+  const onChange = () => {
+    // @ts-ignore
+    clearTimeout(timer);
+    const newTimer = setTimeout(() => {
+      const {
+        maximumDensity,
+        minimumDensity,
+        minimumClearcut,
+        minimumThinning,
+        maximumThinning,
+        ageOfStartThinning,
+        ageOfEndThinning,
+      } = watch(`management`);
+      if (Number(minimumDensity) < Number(maximumDensity)) {
+        clearErrors(['management.minimumDensity', 'management.maximumDensity']);
+      }
+      if (Number(minimumClearcut) < Number(minimumDensity)) {
+        clearErrors(['management.minimumClearcut']);
+      }
+      if (Number(minimumThinning) < Number(maximumThinning)) {
+        clearErrors([
+          'management.minimumThinning',
+          'management.maximumThinning',
+        ]);
+      }
+      if (Number(ageOfStartThinning) < Number(ageOfEndThinning)) {
+        clearErrors([
+          'management.ageOfStartThinning',
+          'management.ageOfEndThinning',
+        ]);
+      }
+    }, 500);
+    setTimer(newTimer);
+  };
+
   const ArrayFields = formInformation.management.map((information) => (
     <div className="form-field-item" key={information.id}>
       <FormItem title={information.title} description={information.description}>
         <>
           <Controller
             name={`management.${information.id}`}
-            control={props.control}
+            control={control}
             defaultValue={information.defaultValue}
             render={({ field }) => (
               <TextField
                 {...field}
                 className="form-field-item-input"
-                error={Boolean(props.errors?.management?.[information.id])}
+                error={Boolean(errors?.management?.[information.id])}
                 helperText={
-                  props.errors?.management?.[information.id] &&
-                  props.errors?.management?.[information.id]?.message
+                  errors?.management?.[information.id] &&
+                  errors?.management?.[information.id]?.message
                 }
+                onChange={(e) => {
+                  setValue(`management.${information.id}`, e.target.value);
+                  onChange();
+                }}
                 InputProps={
                   information.unit
                     ? {

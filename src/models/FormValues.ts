@@ -4,8 +4,8 @@ interface Cut {
     cost: string | number;
     stumpHeight: string | number;
   };
-  price: { value: number }[];
-  diamter: { value: number }[];
+  price: { value: number | string }[];
+  diamter: { value: number | string }[];
 }
 
 export interface FormValues {

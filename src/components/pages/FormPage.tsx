@@ -1,8 +1,9 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable array-callback-return */
 import { useState, VFC } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -16,25 +17,7 @@ import { addCalculationResult } from '../../redux/CalculationResultSlice';
 import './FormPage.css';
 import { FormValues } from '../../models/FormValues';
 import formInformation from '../../data/FormInformation';
-
-const schema = yup
-  .object({
-    management: yup.object({
-      minimumDensity: yup.number().required(),
-      maximumDensity: yup.number().required(),
-      minimumClearcut: yup.number().required(),
-      reforestationCost: yup.number().required(),
-      priceSaplings: yup.number().required(),
-      minimumThinning: yup.number().required(),
-      maximumThinning: yup.number().required(),
-      annualProfit: yup.number().required(),
-      ageOfStartThinning: yup.number().required(),
-      ageOfEndThinning: yup.number().required(),
-      thinningInterval: yup.number().required(),
-      maximumNumberOfThinning: yup.number().required(),
-    }),
-  })
-  .required();
+import schema from './Validation';
 
 const FormPage: VFC = () => {
   const [loading, setLoading] = useState(false);
@@ -48,11 +31,18 @@ const FormPage: VFC = () => {
     register,
     setValue,
     watch,
+    clearErrors,
   } = useForm<FormValues>({
     mode: 'onBlur',
     resolver: yupResolver(schema),
     defaultValues: formInformation.defaultValue,
   });
+
+  // enterで送信されないようにする
+  const checkKeyDown = (e: any) => {
+    // eslint-disable-next-line
+    if (e.code === 'Enter') e.preventDefault();
+  };
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     // e.preventDefault();
@@ -67,10 +57,10 @@ const FormPage: VFC = () => {
     const highStandShape: number[] = [];
 
     data.clearCut.diamter.map((_value, index) => {
-      clearCutPrice.push(data.clearCut.price[index].value);
-      clearCutDiamter.push(data.clearCut.diamter[index].value);
-      thinningPrice.push(data.thinning.price[index].value);
-      thinningDiamter.push(data.thinning.diamter[index].value);
+      clearCutPrice.push(Number(data.clearCut.price[index].value));
+      clearCutDiamter.push(Number(data.clearCut.diamter[index].value));
+      thinningPrice.push(Number(data.thinning.price[index].value));
+      thinningDiamter.push(Number(data.thinning.diamter[index].value));
     });
 
     data.treeGrowth.treeVolume.map((value) => {
@@ -97,7 +87,7 @@ const FormPage: VFC = () => {
               Number(data.treeGrowth.treeHeight[1].value) *
                 Number(data.treeGrowth.treeHeight[2].value),
             ),
-            - data.treeGrowth.treeHeight[1].value,
+            -data.treeGrowth.treeHeight[1].value,
             data.treeGrowth.treeHeight[3].value,
           ],
           V: treeVolume,
@@ -181,7 +171,7 @@ const FormPage: VFC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} onKeyDown={(e) => checkKeyDown(e)}>
       <TreeGrowth
         control={control}
         errors={errors}
@@ -189,7 +179,13 @@ const FormPage: VFC = () => {
         setValue={setValue}
         watch={watch}
       />
-      <TreeManagement control={control} errors={errors} />
+      <TreeManagement
+        control={control}
+        errors={errors}
+        clearErrors={clearErrors}
+        watch={watch}
+        setValue={setValue}
+      />
 
       <CutTreeCost
         cutMethod="thinning"
@@ -198,6 +194,7 @@ const FormPage: VFC = () => {
         register={register}
         setValue={setValue}
         watch={watch}
+        clearErrors={clearErrors}
       />
 
       <CutTreeCost
@@ -207,6 +204,7 @@ const FormPage: VFC = () => {
         setValue={setValue}
         watch={watch}
         cutMethod="clearCut"
+        clearErrors={clearErrors}
       />
       <input className="submit-button" type="submit" value="計算する" />
       {loading && <IsCalculation />}

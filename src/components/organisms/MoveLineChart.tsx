@@ -8,7 +8,7 @@ import * as d3 from 'd3';
 
 import './LineChart.css';
 
-import { UseFormSetValue } from 'react-hook-form';
+import { UseFormClearErrors, UseFormSetValue } from 'react-hook-form';
 import { FormValues } from '../../models/FormValues';
 
 interface IBasicLineChartProps {
@@ -21,6 +21,7 @@ interface IBasicLineChartProps {
   cutMethod: 'thinning' | 'clearCut';
   data: number[][];
   setValue: UseFormSetValue<FormValues>;
+  clearErrors: UseFormClearErrors<FormValues>;
 }
 
 const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
@@ -31,16 +32,18 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
     right,
     className,
     idName,
-    // treePriceInputValues,
-    // setTreePriceInputValue,
     data,
     cutMethod,
     setValue,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    clearErrors,
   } = props;
 
+  // レンダリングのタイムラグを防ぐためのuseState
   const [chartData, setChartData] = useState(data);
 
   useEffect(() => {
+    setChartData(data);
     d3.select(`#${idName}`).selectAll('*').remove();
 
     const width =
@@ -191,6 +194,18 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
 
       setValue(`${cutMethod}.price.${id}.value`, Math.round(d[1] / 100) * 100);
       setValue(`${cutMethod}.diamter.${id}.value`, Math.round(d[0]));
+
+      if (id !== 10) {
+        const test = data[id][0];
+        const test1 = data[id + 1][0];
+        if (test < test1) {
+          clearErrors([
+            `${cutMethod}.diamter.${id}`,
+            `${cutMethod}.diamter.${id + 1}`,
+          ]);
+        }
+      }
+
       const newChartData: number[][] = [];
       chartData.map((value, index) =>
         index === id
@@ -248,6 +263,8 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
     top,
     cutMethod,
     setValue,
+    data,
+    clearErrors,
   ]);
 
   return <div className="line-chart" id={idName} />;
