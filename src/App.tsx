@@ -38,6 +38,16 @@ const App: VFC = () => {
           /> */}
           <Route path="/form" element={<FormPage />} />
           <Route path="/submit" element={<ResultPage />} />
+          <Route
+            path="*"
+            element={
+              <Home
+                title="林業の経営シミュレーション"
+                description="経営に必要なデータを入力するだけで、最適な施業方法を提案します"
+              />
+            }
+          />
+          ;
         </Routes>
       </div>
     </div>
