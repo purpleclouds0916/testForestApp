@@ -15,10 +15,8 @@ import {
   UseFormWatch,
 } from 'react-hook-form';
 import formInformation from '../../data/FormInformation';
-// import FormObject from '../molecules/FormObject';
 import Card from './Card';
 import FormItem from '../molecules/FormItem';
-import '../molecules/Form.css';
 import { FormValues } from '../../models/FormValues';
 
 interface Props {
@@ -65,7 +63,7 @@ const TreeManagement: VFC<Props> = React.memo((props) => {
         'management.ageOfEndThinning',
       ]);
     }
-    
+
     const newTimer = setTimeout(() => undefined, 500);
     setTimer(newTimer);
   };
