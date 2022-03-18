@@ -38,35 +38,35 @@ const TreeManagement: VFC<Props> = React.memo((props) => {
   const onChange = () => {
     // @ts-ignore
     clearTimeout(timer);
-    const newTimer = setTimeout(() => {
-      const {
-        maximumDensity,
-        minimumDensity,
-        minimumClearcut,
-        minimumThinning,
-        maximumThinning,
-        ageOfStartThinning,
-        ageOfEndThinning,
-      } = watch(`management`);
-      if (Number(minimumDensity) < Number(maximumDensity)) {
-        clearErrors(['management.minimumDensity', 'management.maximumDensity']);
-      }
-      if (Number(minimumClearcut) < Number(minimumDensity)) {
-        clearErrors(['management.minimumClearcut']);
-      }
-      if (Number(minimumThinning) < Number(maximumThinning)) {
-        clearErrors([
-          'management.minimumThinning',
-          'management.maximumThinning',
-        ]);
-      }
-      if (Number(ageOfStartThinning) < Number(ageOfEndThinning)) {
-        clearErrors([
-          'management.ageOfStartThinning',
-          'management.ageOfEndThinning',
-        ]);
-      }
-    }, 500);
+    const {
+      maximumDensity,
+      minimumDensity,
+      minimumClearcut,
+      minimumThinning,
+      maximumThinning,
+      ageOfStartThinning,
+      ageOfEndThinning,
+    } = watch(`management`);
+    if (Number(minimumDensity) < Number(maximumDensity)) {
+      clearErrors(['management.minimumDensity', 'management.maximumDensity']);
+    }
+    if (Number(minimumClearcut) < Number(minimumDensity)) {
+      clearErrors(['management.minimumClearcut']);
+    }
+    if (Number(minimumThinning) < Number(maximumThinning)) {
+      clearErrors([
+        'management.minimumThinning',
+        'management.maximumThinning',
+      ]);
+    }
+    if (Number(ageOfStartThinning) < Number(ageOfEndThinning)) {
+      clearErrors([
+        'management.ageOfStartThinning',
+        'management.ageOfEndThinning',
+      ]);
+    }
+    
+    const newTimer = setTimeout(() => undefined, 500);
     setTimer(newTimer);
   };
 

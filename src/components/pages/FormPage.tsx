@@ -17,6 +17,7 @@ import { addCalculationResult } from '../../redux/CalculationResultSlice';
 import './FormPage.css';
 import { FormValues } from '../../models/FormValues';
 import formInformation from '../../data/FormInformation';
+import testFormData from '../../data/testFormData.json'
 import schema from './Validation';
 
 const FormPage: VFC = () => {
@@ -39,6 +40,7 @@ const FormPage: VFC = () => {
   });
 
   // enterで送信されないようにする
+  // eslint-disable-next-line
   const checkKeyDown = (e: any) => {
     // eslint-disable-next-line
     if (e.code === 'Enter') e.preventDefault();
@@ -144,6 +146,7 @@ const FormPage: VFC = () => {
         },
       },
     };
+    // eslint-disable-next-line
     console.log(JSON.stringify(submitApiData));
     // ※高知大学のWi-Fiを利用しないと必ずエラーになる(セキュリティの関係上)
     void axios
@@ -162,8 +165,8 @@ const FormPage: VFC = () => {
         // 以下はテストように開発
         // eslint-disable-next-line no-alert
         alert('計算に失敗しました。これより、デモの計算結果ページに遷移します');
-        // dispatch(addCalculationResult(testFormData));
-        // navigate('/submit');
+        dispatch(addCalculationResult(testFormData));
+        navigate('/submit');
       })
       .finally(() => {
         setLoading(false);

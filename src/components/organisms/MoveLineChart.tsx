@@ -196,9 +196,9 @@ const MoveLineChart: VFC<IBasicLineChartProps> = React.memo((props) => {
       setValue(`${cutMethod}.diamter.${id}.value`, Math.round(d[0]));
 
       if (id !== 10) {
-        const test = data[id][0];
-        const test1 = data[id + 1][0];
-        if (test < test1) {
+        const currentValue = data[id][0];
+        const nextValue = data[id + 1][0];
+        if (currentValue < nextValue) {
           clearErrors([
             `${cutMethod}.diamter.${id}`,
             `${cutMethod}.diamter.${id + 1}`,

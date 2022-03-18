@@ -152,10 +152,10 @@ const CutTreeCost: VFC<Props> = (props) => {
                             `${cutMethod}.diamter.${index}.value`,
                             e.target.value,
                           );
-                          const { diamter } = watch(`${cutMethod}`);
                           // @ts-ignore
                           clearTimeout(timer);
-                          const newTimer = setTimeout(() => {
+                          const { diamter } = watch(`${cutMethod}`);
+                          diamter.map((value) => {
                             if (index !== 10) {
                               if (
                                 Number(diamter[index].value) <=
@@ -167,7 +167,9 @@ const CutTreeCost: VFC<Props> = (props) => {
                                 ]);
                               }
                             }
-                          }, 500);
+                          });
+
+                          const newTimer = setTimeout(() => undefined, 500);
                           setTimer(newTimer);
                         }}
                       />
