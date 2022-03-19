@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable array-callback-return */
 import React, { useState, VFC } from 'react';
-import { Alert, InputAdornment, TextField } from '@mui/material';
+import { Alert, Button, InputAdornment, TextField } from '@mui/material';
 
 import {
   Control,
@@ -37,6 +37,9 @@ const CutTreeCost: VFC<Props> = (props) => {
   const { cutMethod, control, errors, setValue, watch, clearErrors } = props;
 
   const jsCutMethod = cutMethod === 'thinning' ? '間伐' : '皆伐';
+
+  const otherCutMethod = cutMethod === 'thinning' ? 'clearCut' : 'thinning';
+  const jsOtherCutMethod = cutMethod === 'thinning' ? '皆伐' : '間伐';
 
   const chartData: number[][] = [];
   const watchTree = watch(`${cutMethod}`);
@@ -120,6 +123,22 @@ const CutTreeCost: VFC<Props> = (props) => {
   // 不要なレンダリングを減らすためのタイマー
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
+  // データを参照し簡単に入力できる機能
+  const onClickButton = () => {
+    const watchValues = watch(otherCutMethod);
+    watchValues.price.map((_, index) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      setValue(
+        `${cutMethod}.price.${index}.value`,
+        watchValues.price[index].value,
+      );
+      setValue(
+        `${cutMethod}.diamter.${index}.value`,
+        watchValues.diamter[index].value,
+      );
+    });
+  };
+
   return (
     <Card title={`${jsCutMethod}の費用`}>
       <>
@@ -131,6 +150,23 @@ const CutTreeCost: VFC<Props> = (props) => {
           description="胸高直径に対する木材価格を入力してください。下のグラフを動かして変更することもできます"
         >
           <>
+            <div className="cut-button">
+              <Button
+                variant="contained"
+                type="button"
+                onClick={onClickButton}
+                style={{
+                  marginBottom: '12px',
+                  backgroundColor: 'steelblue',
+                  fontSize: '16px',
+                }}
+              >
+                {`${
+                  cutMethod === 'thinning' ? '皆伐' : '間伐'
+                }した木材の価格を参照する`}
+              </Button>
+            </div>
+
             <div className="form-field-items diamter-field-items">
               <TextField
                 disabled
