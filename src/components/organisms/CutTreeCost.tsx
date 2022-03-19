@@ -39,15 +39,18 @@ const CutTreeCost: VFC<Props> = (props) => {
   const jsCutMethod = cutMethod === 'thinning' ? '間伐' : '皆伐';
 
   const otherCutMethod = cutMethod === 'thinning' ? 'clearCut' : 'thinning';
-  const jsOtherCutMethod = cutMethod === 'thinning' ? '皆伐' : '間伐';
 
   const chartData: number[][] = [];
   const watchTree = watch(`${cutMethod}`);
 
   watchTree.price.map((_, index) => {
     chartData[index] = [
-      Number(watchTree.diamter[index].value),
-      Number(watchTree.price[index].value),
+      Number.isNaN(Number(watchTree.diamter[index].value))
+        ? 0
+        : Number(watchTree.diamter[index].value),
+        Number.isNaN(Number(watchTree.price[index].value))
+        ? 0
+        : Number(watchTree.price[index].value),
     ];
   });
 
