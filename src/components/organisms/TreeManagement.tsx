@@ -1,10 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable no-shadow */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/jsx-no-useless-fragment */
-
-import React, { useEffect, useState, VFC } from 'react';
+import React, { useState, VFC } from 'react';
 import { TextField, InputAdornment } from '@mui/material';
 import {
   Control,
@@ -34,8 +29,7 @@ const TreeManagement: VFC<Props> = React.memo((props) => {
   // yupでwhenを使った時に、変更中のテキストの値を見ることができないため、依存関係のエラー解除を実装できなかった
   // なので無理矢理onChangeで実装している
   const onChange = () => {
-    // @ts-ignore
-    clearTimeout(timer);
+    clearTimeout(timer as unknown as NodeJS.Timeout);
     const {
       maximumDensity,
       minimumDensity,
@@ -52,10 +46,7 @@ const TreeManagement: VFC<Props> = React.memo((props) => {
       clearErrors(['management.minimumClearcut']);
     }
     if (Number(minimumThinning) < Number(maximumThinning)) {
-      clearErrors([
-        'management.minimumThinning',
-        'management.maximumThinning',
-      ]);
+      clearErrors(['management.minimumThinning', 'management.maximumThinning']);
     }
     if (Number(ageOfStartThinning) < Number(ageOfEndThinning)) {
       clearErrors([
@@ -71,39 +62,37 @@ const TreeManagement: VFC<Props> = React.memo((props) => {
   const ArrayFields = formInformation.management.map((information) => (
     <div className="form-field-item" key={information.id}>
       <FormItem title={information.title} description={information.description}>
-        <>
-          <Controller
-            name={`management.${information.id}`}
-            control={control}
-            defaultValue={information.defaultValue}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                className="form-field-item-input"
-                error={Boolean(errors?.management?.[information.id])}
-                helperText={
-                  errors?.management?.[information.id] &&
-                  errors?.management?.[information.id]?.message
-                }
-                onChange={(e) => {
-                  setValue(`management.${information.id}`, e.target.value);
-                  onChange();
-                }}
-                InputProps={
-                  information.unit
-                    ? {
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            {information.unit}
-                          </InputAdornment>
-                        ),
-                      }
-                    : undefined
-                }
-              />
-            )}
-          />
-        </>
+        <Controller
+          name={`management.${information.id}`}
+          control={control}
+          defaultValue={information.defaultValue}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              className="form-field-item-input"
+              error={Boolean(errors?.management?.[information.id])}
+              helperText={
+                errors?.management?.[information.id] &&
+                errors?.management?.[information.id]?.message
+              }
+              onChange={(e) => {
+                setValue(`management.${information.id}`, e.target.value);
+                onChange();
+              }}
+              InputProps={
+                information.unit
+                  ? {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {information.unit}
+                        </InputAdornment>
+                      ),
+                    }
+                  : undefined
+              }
+            />
+          )}
+        />
       </FormItem>
     </div>
   ));

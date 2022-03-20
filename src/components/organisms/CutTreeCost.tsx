@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable array-callback-return */
 import React, { useState, VFC } from 'react';
 import { Alert, Button, InputAdornment, TextField } from '@mui/material';
@@ -194,7 +193,7 @@ const CutTreeCost: VFC<Props> = (props) => {
                           // @ts-ignore
                           clearTimeout(timer);
                           const { diamter } = watch(`${cutMethod}`);
-                          diamter.map((value) => {
+                          diamter.map(() => {
                             if (index !== 10) {
                               if (
                                 Number(diamter[index].value) <=

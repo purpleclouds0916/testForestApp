@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable react/jsx-props-no-spreading */
+
 import React, { VFC } from 'react';
 
 import {
