@@ -23,6 +23,7 @@
     "axios": "^0.24.0",
     "d3": "^7.0.0",
     "eslint-plugin-react-perf": "^3.3.1",
+    "express": "^4.17.3",
     "http-proxy-middleware": "^2.0.3",
     "i": "^0.3.7",
     "install": "^0.13.0",
@@ -58,6 +59,7 @@
     "preinstall": "typesync || :",
     "prepare": "simple-git-hooks > /dev/null"
   },
+  "proxy": "http://localhost:3001",
   "eslintConfig": {
     "extends": [
       "react-app",
