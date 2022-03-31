@@ -30,7 +30,7 @@ interface Props {
   watch: UseFormWatch<FormValues>;
 }
 
-const TreeGrowth: VFC<Props> = React.memo((props) => {
+const TreeGrowth: VFC<Props> = (props) => {
   const { control, register, setValue, watch, errors } = props;
 
   const { fields: treeHeightFields } = useFieldArray({
@@ -77,9 +77,7 @@ const TreeGrowth: VFC<Props> = React.memo((props) => {
                     <TextField
                       {...field}
                       className="form-field-item-input"
-                      error={Boolean(
-                        errors?.treeGrowth?.treeHeight?.[index],
-                      )}
+                      error={Boolean(errors?.treeGrowth?.treeHeight?.[index])}
                       helperText={
                         errors?.treeGrowth?.treeHeight?.[index] &&
                         errors?.treeGrowth?.treeHeight?.[index]?.value?.message
@@ -122,6 +120,6 @@ const TreeGrowth: VFC<Props> = React.memo((props) => {
       </>
     </Card>
   );
-});
+};
 
 export default TreeGrowth;
