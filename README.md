@@ -12,4 +12,5 @@ src/data/StandDensityData.json
 開発環境でのデプロイ方法
 1 yarn start
 
+src/index.tsxから他のファイルをたどっていく事ができます。
 
