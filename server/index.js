@@ -10,6 +10,14 @@ app.use((req, res, next) => {
     res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
 
+app.post('/booklog', (req, res) => {
+    const booklog = req.body
+    res.json({
+        "ok": true,
+        "booklog": booklog
+    })
+})
+
 app.listen(3006, () => {
     console.log("server started on port 3006");
 });

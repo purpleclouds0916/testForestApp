@@ -164,7 +164,7 @@ const Result: VFC = () => {
               <ChartItem
                 axisX="樹齢(年)"
                 axisY="林分材積(㎥)"
-                title="平均胸高直径の推移"
+                title="林分材積の推移"
               >
                 <ResultLineChart
                   top={10}

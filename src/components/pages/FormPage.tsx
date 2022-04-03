@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable array-callback-return */
 import { KeyboardEvent, useState, VFC } from 'react';
@@ -17,7 +18,7 @@ import { addCalculationResult } from '../../redux/CalculationResultSlice';
 import './FormPage.css';
 import { FormValues } from '../../models/FormValues';
 import formInformation from '../../data/FormInformation';
-// import testFormData from '../../data/testFormData.json';
+import testFormData from '../../data/testFormData.json';
 import schema from './Validation';
 
 const FormPage: VFC = () => {
@@ -47,127 +48,129 @@ const FormPage: VFC = () => {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setLoading(true);
 
-    const clearCutPrice: number[] = [];
-    const clearCutDiamter: number[] = [];
-    const thinningPrice: number[] = [];
-    const thinningDiamter: number[] = [];
-    const treeVolume: number[] = [];
-    const dbh: number[] = [];
-    const highStandShape: number[] = [];
+    // const clearCutPrice: number[] = [];
+    // const clearCutDiamter: number[] = [];
+    // const thinningPrice: number[] = [];
+    // const thinningDiamter: number[] = [];
+    // const treeVolume: number[] = [];
+    // const dbh: number[] = [];
+    // const highStandShape: number[] = [];
 
-    data.clearCut.diamter.map((_value, index) => {
-      clearCutPrice.push(Number(data.clearCut.price[index].value));
-      clearCutDiamter.push(Number(data.clearCut.diamter[index].value));
-      thinningPrice.push(Number(data.thinning.price[index].value));
-      thinningDiamter.push(Number(data.thinning.diamter[index].value));
-    });
+    // data.clearCut.diamter.map((_value, index) => {
+    //   clearCutPrice.push(Number(data.clearCut.price[index].value));
+    //   clearCutDiamter.push(Number(data.clearCut.diamter[index].value));
+    //   thinningPrice.push(Number(data.thinning.price[index].value));
+    //   thinningDiamter.push(Number(data.thinning.diamter[index].value));
+    // });
 
-    data.treeGrowth.treeVolume.map((value) => {
-      treeVolume.push(value.value);
-    });
+    // data.treeGrowth.treeVolume.map((value) => {
+    //   treeVolume.push(value.value);
+    // });
 
-    data.treeGrowth.dbh.map((value) => {
-      dbh.push(value.value);
-    });
+    // data.treeGrowth.dbh.map((value) => {
+    //   dbh.push(value.value);
+    // });
 
-    data.treeGrowth.highStandShape.map((value) => {
-      highStandShape.push(value.value);
-    });
+    // data.treeGrowth.highStandShape.map((value) => {
+    //   highStandShape.push(value.value);
+    // });
 
-    const submitApiData = {
-      SH: {
-        YieldModelType: 'S',
-        SAType: '2021',
-        SDMD: {
-          NRf: data.treeGrowth.nrf,
-          H: [
-            data.treeGrowth.treeHeight[0].value,
-            -Math.exp(
-              Number(data.treeGrowth.treeHeight[1].value) *
-                Number(data.treeGrowth.treeHeight[2].value),
-            ),
-            -data.treeGrowth.treeHeight[1].value,
-            data.treeGrowth.treeHeight[3].value,
-          ],
-          V: treeVolume,
-          DBH: dbh,
-          HF: highStandShape,
-        },
-        Density: {
-          Plant: [
-            data.management.minimumDensity,
-            data.management.maximumDensity,
-          ],
-          MinimumAtClearcut: data.management.minimumClearcut,
-        },
-        RegenerationCost: [
-          data.management.reforestationCost,
-          data.management.priceSaplings,
-        ],
-        ThinningPercent: [
-          data.management.minimumThinning,
-          data.management.maximumThinning,
-        ],
-        AnnualInterestPercent: data.management.annualProfit,
-        HarvestingAges: [
-          data.management.ageOfStartThinning,
-          data.management.ageOfEndThinning,
-          data.management.thinningInterval,
-        ],
-        MaxNumOfHarvest: data.management.maximumNumberOfThinning,
-        NumSearch: [3, 10000],
-        Thinning: {
-          YieldRate: data.thinning.other.yieldRate,
-          Cost: data.thinning.other.cost,
-          StumpHeight: data.thinning.other.stumpHeight,
-          Diameter: thinningDiamter,
-          Price: thinningPrice,
-        },
-        Clearcut: {
-          YieldRate: data.clearCut.other.yieldRate,
-          Cost: data.clearCut.other.cost,
-          StumpHeight: data.clearCut.other.stumpHeight,
-          Diameter: clearCutDiamter,
-          Price: clearCutPrice,
-        },
-        SA: {
-          Comment: 'Type L 1000 yen/ha degradation for SEV',
-          NumRepeat: 40,
-          NumTempLevel: 100,
-          MetaSearchPercentile: 0.75,
-          NumTotalLoopN: [1, 8],
-          NumTotalLoopPow: [3.55, 6.75],
-          StartTemp: [0, -0.6, 0.6, 5],
-          DiffTemp: [0, -3.8, 1.4, 5],
-          DistScale: [0, -1.2, 0.6, 5],
-        },
-      },
-    };
+    // const submitApiData = {
+    //   SH: {
+    //     YieldModelType: 'S',
+    //     SAType: '2021',
+    //     SDMD: {
+    //       NRf: data.treeGrowth.nrf,
+    //       H: [
+    //         data.treeGrowth.treeHeight[0].value,
+    //         -Math.exp(
+    //           Number(data.treeGrowth.treeHeight[1].value) *
+    //             Number(data.treeGrowth.treeHeight[2].value),
+    //         ),
+    //         -data.treeGrowth.treeHeight[1].value,
+    //         data.treeGrowth.treeHeight[3].value,
+    //       ],
+    //       V: treeVolume,
+    //       DBH: dbh,
+    //       HF: highStandShape,
+    //     },
+    //     Density: {
+    //       Plant: [
+    //         data.management.minimumDensity,
+    //         data.management.maximumDensity,
+    //       ],
+    //       MinimumAtClearcut: data.management.minimumClearcut,
+    //     },
+    //     RegenerationCost: [
+    //       data.management.reforestationCost,
+    //       data.management.priceSaplings,
+    //     ],
+    //     ThinningPercent: [
+    //       data.management.minimumThinning,
+    //       data.management.maximumThinning,
+    //     ],
+    //     AnnualInterestPercent: data.management.annualProfit,
+    //     HarvestingAges: [
+    //       data.management.ageOfStartThinning,
+    //       data.management.ageOfEndThinning,
+    //       data.management.thinningInterval,
+    //     ],
+    //     MaxNumOfHarvest: data.management.maximumNumberOfThinning,
+    //     NumSearch: [3, 10000],
+    //     Thinning: {
+    //       YieldRate: data.thinning.other.yieldRate,
+    //       Cost: data.thinning.other.cost,
+    //       StumpHeight: data.thinning.other.stumpHeight,
+    //       Diameter: thinningDiamter,
+    //       Price: thinningPrice,
+    //     },
+    //     Clearcut: {
+    //       YieldRate: data.clearCut.other.yieldRate,
+    //       Cost: data.clearCut.other.cost,
+    //       StumpHeight: data.clearCut.other.stumpHeight,
+    //       Diameter: clearCutDiamter,
+    //       Price: clearCutPrice,
+    //     },
+    //     SA: {
+    //       Comment: 'Type L 1000 yen/ha degradation for SEV',
+    //       NumRepeat: 40,
+    //       NumTempLevel: 100,
+    //       MetaSearchPercentile: 0.75,
+    //       NumTotalLoopN: [1, 8],
+    //       NumTotalLoopPow: [3.55, 6.75],
+    //       StartTemp: [0, -0.6, 0.6, 5],
+    //       DiffTemp: [0, -3.8, 1.4, 5],
+    //       DistScale: [0, -1.2, 0.6, 5],
+    //     },
+    //   },
+    // };
 
     // ※高知大学のWi-Fiを利用しないと必ずエラーになる(セキュリティの関係上)
     void axios
-      .post<CalculationResultType>(
-        'http://133.97.178.97:21312/calculation/',
-        submitApiData,
-      )
+      .post<CalculationResultType>('/booklog', {})
       .then((res) => {
-        dispatch(
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-          addCalculationResult(JSON.parse(res.data as unknown as string)),
-        );
+        // dispatch(
+        //   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        //   addCalculationResult(JSON.parse(res.data as unknown as string)),
+        // );
+        alert('成功');
         navigate('/submit');
       })
       .catch(() => {
         // eslint-disable-next-line no-alert
-        alert('計算に失敗しました。管理者に連絡をしてください');
+        // alert('計算に失敗しました。管理者に連絡をしてください');
         // 以下はテストように開発
         // eslint-disable-next-line no-alert
         // alert('計算に失敗しました。これより、デモの計算結果ページに遷移します');
-        // dispatch(addCalculationResult(testFormData));
-        // navigate('/submit');
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        // setTimeout(() => {}, 1000000);
+        setTimeout(() => {
+          dispatch(addCalculationResult(testFormData));
+          navigate('/submit');
+        }, 3 * 1000);
       })
       .finally(() => {
-        setLoading(false);
+        setTimeout(() => setLoading(false), 3 * 1000);
       });
   };
 
