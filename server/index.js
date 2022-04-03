@@ -12,6 +12,10 @@ app.use((req, res, next) => {
 
 app.post('/booklog', (req, res) => {
     const booklog = req.body
+    setTimeout(() => {
+        dispatch(addCalculationResult(testFormData));
+        navigate('/submit');
+      }, 6 * 1000);
     res.json({
         "ok": true,
         "booklog": booklog

@@ -149,11 +149,10 @@ const FormPage: VFC = () => {
     void axios
       .post<CalculationResultType>('/booklog', {})
       .then((res) => {
-        // dispatch(
-        //   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        //   addCalculationResult(JSON.parse(res.data as unknown as string)),
-        // );
-        alert('成功');
+        dispatch(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          addCalculationResult(JSON.parse(res.data as unknown as string)),
+        );
         navigate('/submit');
       })
       .catch(() => {
